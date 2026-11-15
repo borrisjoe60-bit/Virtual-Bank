@@ -1058,4 +1058,4 @@ The dashboard includes a non-custodial VSG wallet panel. The backend supports re
 
 **Network availability:** the VSC RPC returned HTTP 522 during integration checks on 2026-11-15. The dashboard reports RPC unavailability rather than pretending the chain is online. Recheck the official endpoint before enabling real deposits/withdrawals. A deposit address being displayed does not mean incoming deposits are indexed or credited to the bank balance.
 
-VSC endpoints are mounted under `/vsc/`: `GET /vsc/network/`, `GET|POST /vsc/wallets/`, and per-wallet `balance/`, `deposit/`, `withdraw/`, and `history/` routes.
+VSC endpoints are mounted under `/vsc/`. The discovery endpoint `GET /vsc/` returns the available routes. Other endpoints: `GET /vsc/network/`, `GET|POST /vsc/wallets/`, and per-wallet `balance/`, `deposit/`, `withdraw/`, and `history/` routes.
