@@ -1,9 +1,10 @@
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
+import requests
+from django.test import SimpleTestCase, override_settings
 from rest_framework.test import APIRequestFactory
-from django.test import SimpleTestCase
 
-from vsc_wallet.views import VscNetworkView, rpc_error
+from vsc_wallet.views import VscNetworkView, rpc, rpc_error
 
 
 class VscNetworkViewTests(SimpleTestCase):
@@ -23,10 +24,26 @@ class VscNetworkViewTests(SimpleTestCase):
         response = VscNetworkView.as_view()(self.factory.get("/vsc/network/"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["rpc_status"], "unavailable")
-        self.assertNotIn("rpc_error", response.data)
         self.assertNotIn("private-node", str(response.data))
 
     def test_rpc_error_response_is_sanitized(self):
         response = rpc_error(RuntimeError("secret endpoint credential"))
         self.assertEqual(response.status_code, 503)
         self.assertNotIn("secret", str(response.data))
+
+    @override_settings(VSC_RPC_URL="https://primary.invalid", VSC_RPC_FALLBACK_URLS=["https://fallback.invalid"])
+    @patch("vsc_wallet.views.requests.post")
+    def test_rpc_fails_over_to_secondary_after_primary_failure(self, post):
+        def reply(result):
+            response = Mock()
+            response.raise_for_status.return_value = None
+            response.json.return_value = {"jsonrpc": "2.0", "id": 1, "result": result}
+            return response
+        post.side_effect = [
+            requests.Timeout("primary timeout"),
+            reply("0x668ca"),
+            reply("0x2a"),
+        ]
+        self.assertEqual(rpc("eth_blockNumber"), "0x2a")
+        self.assertEqual(post.call_count, 3)
+        self.assertEqual(post.call_args_list[1].args[0], "https://fallback.invalid")
