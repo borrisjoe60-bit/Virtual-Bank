@@ -4,6 +4,8 @@
 {% block content %}
   {% include 'users/includes/header.html' %}
   <main class="float-end">
+    <section id="vsc-wallet-panel" class="card shadow-sm my-4 p-3"><h2 class="h4">Vector Smart Chain · VSG</h2><p id="vsc-network-status">Checking network…</p><label for="vsc-wallet-address">Existing wallet address</label><div class="input-group"><input id="vsc-wallet-address" class="form-control" placeholder="0x…"><button id="vsc-register-wallet" class="btn btn-primary" type="button">Add wallet</button></div><small class="text-muted">Create/import your wallet in a trusted wallet app. Never enter a recovery phrase or private key here.</small><p id="vsc-feedback" role="status"></p><div id="vsc-wallet-list"></div></section>
+
 
     <aside class="account-form quick-transfer-form d-none">
       <form method="POST" class="border border-primary px-5 py-2 shadow p-3 mb-5 bg-body-tertiary rounded">
