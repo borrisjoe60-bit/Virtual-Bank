@@ -1041,3 +1041,21 @@ All wallet routes require the existing JWT authentication, except `GET /api/v1/v
 Explorer: https://explorer.vscblockchain.org
 
 **Important:** deposits are received directly by the user's non-custodial address; the app does not custody or automatically credit bank-account balances. Incoming deposit detection and complete transaction history require a compatible indexer. Always verify chain status and RPC connectivity before enabling live transfers. The integration reports RPC errors rather than simulating successful blockchain actions.
+
+
+## Vector Smart Chain (VSG) wallet integration
+
+The dashboard includes a non-custodial VSG wallet panel. The backend supports registering an existing public address, checking native VSG balance, displaying a deposit address, broadcasting a wallet-signed raw transaction, and listing indexed activity when a trusted history indexer is configured.
+
+- Network: Vector Smart Chain (EVM)
+- Chain ID: `420042` (`0x668CA`)
+- Native asset: `VSG`
+- Official RPC default: `https://rpc.vscblockchain.org`
+- Explorer: [VSC Explorer](https://explorer.vscblockchain.org)
+- Optional history indexer: configure `VSC_HISTORY_API_URL`; without it, history is explicitly incomplete and shows locally submitted withdrawals only.
+
+**Wallet safety:** this application does not create custodial wallets and never asks for or stores seed phrases/private keys. Create/import a wallet in a trusted wallet app and register only its public address. Sign transactions in that wallet and submit only the signed raw transaction. The API verifies that the recovered signer matches the registered address before broadcasting.
+
+**Network availability:** the VSC RPC returned HTTP 522 during integration checks on 2026-11-15. The dashboard reports RPC unavailability rather than pretending the chain is online. Recheck the official endpoint before enabling real deposits/withdrawals. A deposit address being displayed does not mean incoming deposits are indexed or credited to the bank balance.
+
+VSC endpoints are mounted under `/vsc/`: `GET /vsc/network/`, `GET|POST /vsc/wallets/`, and per-wallet `balance/`, `deposit/`, `withdraw/`, and `history/` routes.
