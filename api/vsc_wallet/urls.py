@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import VscNetworkView, VscWalletListCreateView, VscBalanceView, VscDepositView, VscWithdrawBroadcastView, VscHistoryView, VscRecordTransactionView
+from .views import VscApiRootView, VscNetworkView, VscWalletListCreateView, VscBalanceView, VscDepositView, VscWithdrawBroadcastView, VscHistoryView, VscRecordTransactionView
 
 urlpatterns = [
+    path("", VscApiRootView.as_view(), name="vsc-api-root"),
     path("network/", VscNetworkView.as_view(), name="vsc-network"),
     path("wallets/", VscWalletListCreateView.as_view(), name="vsc-wallets"),
     path("wallets/<int:wallet_id>/balance/", VscBalanceView.as_view(), name="vsc-balance"),
