@@ -22,6 +22,12 @@ def rpc(method, params=None):
     endpoint = getattr(settings, "VSC_RPC_URL", "")
     if not endpoint:
         raise RuntimeError("VSC_RPC_URL is not configured")
+    if method != "eth_chainId":
+        chain_response = requests.post(endpoint, json={"jsonrpc": "2.0", "id": 1, "method": "eth_chainId", "params": []}, timeout=15)
+        chain_response.raise_for_status()
+        chain_payload = chain_response.json()
+        if chain_payload.get("error") or int(chain_payload.get("result", "0x0"), 16) != CHAIN_ID:
+            raise RuntimeError("Configured RPC is not Vector Smart Chain (chain ID 420042)")
     response = requests.post(endpoint, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params or []}, timeout=15)
     response.raise_for_status()
     payload = response.json()
