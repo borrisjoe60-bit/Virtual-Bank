@@ -13,7 +13,7 @@ from django.db.models import Q, Sum
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth import views as auth_views
-from utils.constant import api_url
+from utils.constant import api_url, public_api_url
 import requests
 
 
@@ -128,6 +128,7 @@ class DashBoard(View):
         context = {
             "user": request.user,
             "title": "Dashboard",
+            "API_URL": public_api_url,
             "recent_transactions": recent_transactions,
             "financial": financial,
             "top_partners": top_partners,
