@@ -127,21 +127,33 @@
           } catch (error) { detail.textContent = error.message; }
         });
         history.addEventListener("click", async () => {
-          try {
-            const result = await api("/vsc/wallets/" + wallet.id + "/history/");
-            detail.replaceChildren();
-            if (!result.items.length) detail.textContent = "No native VSG transactions found yet.";
-            for (const tx of result.items) {
-              const row = element("div", "border-top py-2");
-              row.append(element("div", "fw-semibold", tx.direction + " · " + tx.amount_vsg + " VSG · " + tx.status));
-              const link = element("a", "small", tx.tx_hash);
-              link.href = tx.explorer_url;
-              link.target = "_blank";
-              link.rel = "noopener noreferrer";
-              row.append(link);
-              detail.append(row);
-            }
-          } catch (error) { detail.textContent = error.message; }
+          detail.replaceChildren();
+          let page = 1;
+          async function loadHistoryPage() {
+            try {
+              const result = await api("/vsc/wallets/" + wallet.id + "/history/?page=" + page);
+              if (!result.items.length && page === 1) detail.append(element("p", "text-muted", "No native VSG transactions found yet."));
+              for (const tx of result.items) {
+                const row = element("div", "border-top py-2");
+                row.append(element("div", "fw-semibold", tx.direction + " · " + tx.amount_vsg + " VSG · " + tx.status));
+                const link = element("a", "small", tx.tx_hash);
+                link.href = tx.explorer_url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                row.append(link);
+                detail.append(row);
+              }
+              detail.querySelector("[data-load-more]")?.remove();
+              if (result.has_more) {
+                const more = element("button", "btn btn-sm btn-outline-secondary mt-2", "Load more history");
+                more.type = "button";
+                more.dataset.loadMore = "true";
+                more.addEventListener("click", async () => { more.disabled = true; page += 1; await loadHistoryPage(); });
+                detail.append(more);
+              }
+            } catch (error) { detail.append(element("p", "text-danger", error.message)); }
+          }
+          await loadHistoryPage();
         });
 
         const sendTitle = element("h3", "h6 mt-4", "Send VSG");
