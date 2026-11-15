@@ -30,7 +30,8 @@ def rpc(method, params=None):
 
 
 def rpc_error(exc):
-    return Response({"detail": str(exc)}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    # Do not expose RPC hostnames, credentials, or upstream response bodies to clients.
+    return Response({"detail": "Vector Smart Chain RPC is temporarily unavailable."}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
 
 class VscNetworkView(APIView):
@@ -44,7 +45,6 @@ class VscNetworkView(APIView):
             data["rpc_status"] = "online"
         except Exception as exc:
             data["rpc_status"] = "unavailable"
-            data["rpc_error"] = str(exc)
         return Response(data)
 
 
@@ -124,6 +124,16 @@ class VscHistoryView(APIView):
             response = requests.get(indexer, params={"address": wallet.address, "chain_id": CHAIN_ID}, timeout=15)
             response.raise_for_status()
             payload = response.json()
-            return Response({"items": payload if isinstance(payload, list) else payload.get("items", []), "history_complete": True})
+            items = payload if isinstance(payload, list) else payload.get("items", []) if isinstance(payload, dict) else None
+            if not isinstance(items, list):
+                return Response({"detail": "The configured VSC history service returned an unsupported response."}, status=502)
+            # Only accept transaction objects with a valid hash; do not blindly proxy arbitrary upstream data.
+            safe_items = []
+            for item in items[:100]:
+                if not isinstance(item, dict) or not HASH_RE.fullmatch(str(item.get("tx_hash", item.get("hash", "")))):
+                    continue
+                tx_hash = str(item.get("tx_hash", item.get("hash")))
+                safe_items.append({"tx_hash": tx_hash, "direction": item.get("direction"), "status": item.get("status"), "amount": item.get("amount"), "timestamp": item.get("timestamp"), "explorer_url": f"{EXPLORER}/tx/{tx_hash}"})
+            return Response({"items": safe_items, "history_complete": True})
         except Exception as exc:
             return rpc_error(exc)
