@@ -1011,3 +1011,33 @@ The Virtual Bank project is licensed under the MIT License, ensuring open-source
 
 ## Contact
 For any inquiries or support, please contact Adeniji Olajide at [adenijiolajid01@gmail.com](mailto:adenijiolajid01@gmail.com).
+
+
+## Vector Smart Chain (VSG) wallet API
+
+This fork includes an opt-in, non-custodial Vector Smart Chain integration (EVM chain ID **420042**, native gas asset **VSG**).
+
+### Configuration
+
+Set these server-side environment variables in your deployment:
+
+- `VSC_RPC_URL`: trusted HTTPS JSON-RPC endpoint for Vector Smart Chain.
+- `VSC_HISTORY_API_URL`: optional address-activity indexer endpoint accepting `address` and `chain_id` query parameters and returning a JSON array or an object with an `items` array.
+
+Do not store private keys, recovery phrases, or wallet secrets in Django settings, environment variables, database records, or support tickets. Wallets are created/imported in the user's trusted wallet application; Virtual Bank only registers the public address. The withdrawal endpoint accepts a wallet-signed raw transaction and relays it to the configured RPC.
+
+### API routes
+
+All wallet routes require the existing JWT authentication, except `GET /api/v1/vsc/network/` (adjust the prefix to your deployment's API mount).
+
+- `GET /vsc/network/` — chain ID, RPC availability and explorer.
+- `GET /vsc/wallets/` — list the signed-in user's registered VSC addresses.
+- `POST /vsc/wallets/` — register a public address: `{"address":"0x...","label":"Main wallet"}`.
+- `GET /vsc/wallets/{id}/balance/` — native VSG balance.
+- `GET /vsc/wallets/{id}/deposit/` — deposit address and network safety instructions.
+- `POST /vsc/wallets/{id}/withdraw/` — relay `{"signed_raw_transaction":"0x..."}` after the user signs in their wallet.
+- `GET /vsc/wallets/{id}/history/` — indexed history when an indexer is configured; otherwise returns locally submitted withdrawals and clearly marks history as incomplete.
+
+Explorer: https://explorer.vscblockchain.org
+
+**Important:** deposits are received directly by the user's non-custodial address; the app does not custody or automatically credit bank-account balances. Incoming deposit detection and complete transaction history require a compatible indexer. Always verify chain status and RPC connectivity before enabling live transfers. The integration reports RPC errors rather than simulating successful blockchain actions.
