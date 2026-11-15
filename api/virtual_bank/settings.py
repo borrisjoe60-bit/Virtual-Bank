@@ -260,5 +260,5 @@ SIMPLE_JWT = {
 LOGIN_URL = 'api:user_login'
 
 # Vector Smart Chain (VSG) public-node configuration. Never store wallet secrets here.
-VSC_RPC_URL = os.getenv("VSC_RPC_URL", "")
+VSC_RPC_URL = os.getenv("VSC_RPC_URL", "https://rpc.vscblockchain.org")
 VSC_HISTORY_API_URL = os.getenv("VSC_HISTORY_API_URL", "")
