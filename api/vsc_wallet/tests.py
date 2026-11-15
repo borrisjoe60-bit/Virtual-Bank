@@ -4,12 +4,18 @@ import requests
 from django.test import SimpleTestCase, override_settings
 from rest_framework.test import APIRequestFactory
 
-from vsc_wallet.views import VscNetworkView, rpc, rpc_error
+from vsc_wallet.views import VscApiRootView, VscNetworkView, rpc, rpc_error
 
 
 class VscNetworkViewTests(SimpleTestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
+
+    def test_api_root_lists_discoverable_endpoints(self):
+        response = VscApiRootView.as_view()(self.factory.get("/vsc/"))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("/vsc/network/", response.data["endpoints"].values())
+        self.assertEqual(response.data["chain_id"], 420042)
 
     @patch("vsc_wallet.views.rpc", return_value="0x10")
     def test_network_reports_chain_and_latest_block(self, mock_rpc):
