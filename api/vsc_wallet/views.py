@@ -4,6 +4,7 @@ from decimal import Decimal
 from urllib.parse import urlencode
 
 import requests
+from eth_account import Account
 from django.conf import settings
 from rest_framework import permissions, status
 from rest_framework.response import Response
@@ -100,6 +101,9 @@ class VscWithdrawBroadcastView(APIView):
         if not raw_tx.startswith("0x") or len(raw_tx) < 20:
             return Response({"detail": "Provide a wallet-signed raw transaction. Never send a seed phrase or private key."}, status=400)
         try:
+            signer = Account.recover_transaction(raw_tx)
+            if signer.lower() != wallet.address.lower():
+                return Response({"detail": "The signed transaction sender does not match this registered wallet."}, status=400)
             tx_hash = rpc("eth_sendRawTransaction", [raw_tx])
             if not HASH_RE.fullmatch(str(tx_hash)):
                 raise RuntimeError("RPC returned an invalid transaction hash")
