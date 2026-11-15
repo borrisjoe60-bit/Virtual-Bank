@@ -56,3 +56,6 @@ zope.interface==7.0.1
 
 # Recover the signer from wallet-signed raw VSC transactions
 eth-account>=0.13,<0.14
+
+# drf-yasg currently imports pkg_resources at startup
+setuptools<81
