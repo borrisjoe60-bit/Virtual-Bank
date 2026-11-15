@@ -171,10 +171,13 @@ class VscHistoryView(APIView):
             response.raise_for_status()
             payload = response.json()
             result = payload.get("result", []) if isinstance(payload, dict) else []
+            if isinstance(payload, dict) and payload.get("status") == "0":
+                if "no transactions" in str(payload.get("message", "")).lower():
+                    result = []
+                else:
+                    return Response({"detail": "The VSC explorer history service is temporarily unavailable."}, status=502)
             if not isinstance(result, list):
                 return Response({"detail": "The VSC explorer returned an unsupported transaction-history response."}, status=502)
-            if payload.get("status") == "0" and "no transactions" not in str(payload.get("message", "")).lower():
-                return Response({"detail": "The VSC explorer history service is temporarily unavailable."}, status=502)
             items = []
             for item in result[:100]:
                 if not isinstance(item, dict) or not HASH_RE.fullmatch(str(item.get("hash", ""))):
