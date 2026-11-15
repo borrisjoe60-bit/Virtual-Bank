@@ -1052,7 +1052,7 @@ The dashboard includes a non-custodial VSG wallet panel. The backend supports re
 - Native asset: `VSG`
 - Official RPC default: `https://rpc.vscblockchain.org`
 - Explorer: [VSC Explorer](https://explorer.vscblockchain.org)
-- Optional history indexer: configure `VSC_HISTORY_API_URL`; without it, history is explicitly incomplete and shows locally submitted withdrawals only.
+- Native VSG transaction history uses the documented VSC Explorer API by default (`https://explorer.vscblockchain.org/api`). Override it with `VSC_HISTORY_API_URL` only if you use a compatible explorer API. The backend checks the official RPC first and then a secondary public endpoint from `VSC_RPC_FALLBACK_URLS`, verifying chain ID 420042 before accepting responses.
 
 **Wallet safety:** this application does not create custodial wallets and never asks for or stores seed phrases/private keys. Create/import a wallet in a trusted wallet app and register only its public address. Sign transactions in that wallet and submit only the signed raw transaction. The API verifies that the recovered signer matches the registered address before broadcasting.
 
