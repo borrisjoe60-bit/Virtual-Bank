@@ -32,6 +32,10 @@ jobs:
           cache-dependency-path: requirements.txt
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
+      - name: Check VSC dashboard JavaScript syntax
+        run: node --check clients/users/static/users/scripts/vsc-dashboard.js
+      - name: Check Python syntax
+        run: python -m compileall -q api/vsc_wallet
       - name: Django system checks
         working-directory: api
         env:
