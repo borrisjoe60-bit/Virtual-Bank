@@ -3,8 +3,8 @@ services:
     name: virtual-bank-api
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt && python api/manage.py collectstatic --noinput && python api/manage.py migrate --noinput
-    startCommand: cd api && daphne -b 0.0.0.0 -p $PORT virtual_bank.asgi:application
+    buildCommand: pip install -r requirements.txt && python api/manage.py collectstatic --noinput
+    startCommand: cd api && python manage.py migrate --noinput && daphne -b 0.0.0.0 -p $PORT virtual_bank.asgi:application
     healthCheckPath: /vsc/
     autoDeploy: true
     envVars:
