@@ -52,6 +52,30 @@ def get_user_wallet(request, wallet_id):
     return VscWallet.objects.filter(id=wallet_id, user=request.user, chain_id=CHAIN_ID).first()
 
 
+class VscApiRootView(APIView):
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = []
+
+    def get(self, request):
+        return Response({
+            "name": "Vector Smart Chain wallet API",
+            "network": "Vector Smart Chain",
+            "chain_id": CHAIN_ID,
+            "native_asset": "VSG",
+            "endpoints": {
+                "network": "/vsc/network/",
+                "wallets": "/vsc/wallets/",
+                "balance": "/vsc/wallets/{wallet_id}/balance/",
+                "deposit": "/vsc/wallets/{wallet_id}/deposit/",
+                "withdraw_signed_raw": "/vsc/wallets/{wallet_id}/withdraw/",
+                "record_wallet_transaction": "/vsc/wallets/{wallet_id}/transactions/record/",
+                "history": "/vsc/wallets/{wallet_id}/history/?page=1"
+            },
+            "wallet_security": "Non-custodial. Connect and sign with your own wallet; never submit seed phrases or private keys.",
+            "explorer": EXPLORER
+        })
+
+
 class VscNetworkView(APIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
