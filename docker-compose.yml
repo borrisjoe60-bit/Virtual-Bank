@@ -76,6 +76,7 @@ services:
       - CLIENT_PORT=${CLIENT_PORT:-8040}
       - CLIENT_URL=http://${CLIENT_HOST:-client}:${CLIENT_PORT:-8040}
       - API_URL=http://api:${API_PORT:-8030}
+      - PUBLIC_API_URL=${PUBLIC_API_URL:-http://localhost:8030}
     command: python manage.py runserver 0.0.0.0:${CLIENT_PORT:-8040}
 
 volumes:

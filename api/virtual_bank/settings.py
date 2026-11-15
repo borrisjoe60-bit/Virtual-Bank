@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY") or os.getenv("DJANGO_SECRET_KEY", "unsafe-development-key-change-me")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "notifications.apps.NotificationsConfig",
     "transactions.apps.TransactionsConfig",
     "websocket.apps.WebsocketConfig",
+    "vsc_wallet.apps.VscWalletConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -257,3 +258,10 @@ SIMPLE_JWT = {
 
 
 LOGIN_URL = 'api:user_login'
+
+# Vector Smart Chain (VSG) public-node configuration. Never store wallet secrets here.
+VSC_RPC_URL = os.getenv("VSC_RPC_URL") or "https://rpc.vscblockchain.org"
+# Secondary public endpoint is attempted only after chain-ID verification.
+VSC_RPC_FALLBACK_URLS = [u.strip() for u in os.getenv("VSC_RPC_FALLBACK_URLS", "https://420042.rpc.thirdweb.com").split(",") if u.strip()]
+# Official explorer API (Etherscan-compatible) for native transaction history.
+VSC_HISTORY_API_URL = os.getenv("VSC_HISTORY_API_URL") or "https://explorer.vscblockchain.org/api"

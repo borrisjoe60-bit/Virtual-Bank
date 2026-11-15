@@ -1011,3 +1011,51 @@ The Virtual Bank project is licensed under the MIT License, ensuring open-source
 
 ## Contact
 For any inquiries or support, please contact Adeniji Olajide at [adenijiolajid01@gmail.com](mailto:adenijiolajid01@gmail.com).
+
+
+## Vector Smart Chain (VSG) wallet API
+
+This fork includes an opt-in, non-custodial Vector Smart Chain integration (EVM chain ID **420042**, native gas asset **VSG**).
+
+### Configuration
+
+Set these server-side environment variables in your deployment:
+
+- `VSC_RPC_URL`: trusted HTTPS JSON-RPC endpoint for Vector Smart Chain.
+- `VSC_HISTORY_API_URL`: optional address-activity indexer endpoint accepting `address` and `chain_id` query parameters and returning a JSON array or an object with an `items` array.
+
+Do not store private keys, recovery phrases, or wallet secrets in Django settings, environment variables, database records, or support tickets. Wallets are created/imported in the user's trusted wallet application; Virtual Bank only registers the public address. The withdrawal endpoint accepts a wallet-signed raw transaction and relays it to the configured RPC.
+
+### API routes
+
+All wallet routes require the existing JWT authentication, except `GET /api/v1/vsc/network/` (adjust the prefix to your deployment's API mount).
+
+- `GET /vsc/network/` — chain ID, RPC availability and explorer.
+- `GET /vsc/wallets/` — list the signed-in user's registered VSC addresses.
+- `POST /vsc/wallets/` — register a public address: `{"address":"0x...","label":"Main wallet"}`.
+- `GET /vsc/wallets/{id}/balance/` — native VSG balance.
+- `GET /vsc/wallets/{id}/deposit/` — deposit address and network safety instructions.
+- `POST /vsc/wallets/{id}/withdraw/` — relay `{"signed_raw_transaction":"0x..."}` after the user signs in their wallet.
+- `GET /vsc/wallets/{id}/history/` — indexed history when an indexer is configured; otherwise returns locally submitted withdrawals and clearly marks history as incomplete.
+
+Explorer: https://explorer.vscblockchain.org
+
+**Important:** deposits are received directly by the user's non-custodial address; the app does not custody or automatically credit bank-account balances. Incoming deposit detection and complete transaction history require a compatible indexer. Always verify chain status and RPC connectivity before enabling live transfers. The integration reports RPC errors rather than simulating successful blockchain actions.
+
+
+## Vector Smart Chain (VSG) wallet integration
+
+The dashboard includes a non-custodial VSG wallet panel. The backend supports registering an existing public address, checking native VSG balance, displaying a deposit address, broadcasting a wallet-signed raw transaction, and listing indexed activity when a trusted history indexer is configured.
+
+- Network: Vector Smart Chain (EVM)
+- Chain ID: `420042` (`0x668CA`)
+- Native asset: `VSG`
+- Official RPC default: `https://rpc.vscblockchain.org`
+- Explorer: [VSC Explorer](https://explorer.vscblockchain.org)
+- Native VSG transaction history uses the documented VSC Explorer API by default (`https://explorer.vscblockchain.org/api`). Override it with `VSC_HISTORY_API_URL` only if you use a compatible explorer API. The backend checks the official RPC first and then a secondary public endpoint from `VSC_RPC_FALLBACK_URLS`, verifying chain ID 420042 before accepting responses.
+
+**Wallet safety:** this application does not create custodial wallets and never asks for or stores seed phrases/private keys. Create/import a wallet in a trusted wallet app and register only its public address. Sign transactions in that wallet and submit only the signed raw transaction. The API verifies that the recovered signer matches the registered address before broadcasting.
+
+**Network availability:** the VSC RPC returned HTTP 522 during integration checks on 2026-11-15. The dashboard reports RPC unavailability rather than pretending the chain is online. Recheck the official endpoint before enabling real deposits/withdrawals. A deposit address being displayed does not mean incoming deposits are indexed or credited to the bank balance.
+
+VSC endpoints are mounted under `/vsc/`. The discovery endpoint `GET /vsc/` returns the available routes. In Docker Compose, set `PUBLIC_API_URL` to the API URL that a user's browser can reach (default local value: `http://localhost:8030`); do not use the Docker-only hostname `http://api:8030` for browser requests. Other endpoints: `GET /vsc/network/`, `GET|POST /vsc/wallets/`, and per-wallet `balance/`, `deposit/`, `withdraw/`, and `history/` routes.
