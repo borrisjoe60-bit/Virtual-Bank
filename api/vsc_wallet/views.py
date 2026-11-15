@@ -167,7 +167,12 @@ class VscHistoryView(APIView):
             return Response({"detail": "Wallet not found"}, status=404)
         endpoint = getattr(settings, "VSC_HISTORY_API_URL", "") or f"{EXPLORER}/api"
         try:
-            response = requests.get(endpoint, params={"module": "account", "action": "txlist", "address": wallet.address, "startblock": 0, "endblock": 99999999, "page": 1, "offset": 100, "sort": "desc"}, timeout=12)
+            try:
+                page = max(1, min(int(request.query_params.get("page", "1")), 10000))
+            except (TypeError, ValueError):
+                page = 1
+            page_size = 100
+            response = requests.get(endpoint, params={"module": "account", "action": "txlist", "address": wallet.address, "startblock": 0, "endblock": 99999999, "page": page, "offset": page_size, "sort": "desc"}, timeout=12)
             response.raise_for_status()
             payload = response.json()
             result = payload.get("result", []) if isinstance(payload, dict) else []
@@ -187,6 +192,7 @@ class VscHistoryView(APIView):
                 recipient = str(item.get("to", ""))
                 failed = str(item.get("isError", "0")) == "1" or str(item.get("txreceipt_status", "1")) == "0"
                 items.append({"tx_hash": item["hash"], "direction": "OUT" if sender.lower() == wallet.address.lower() else "IN", "status": "FAILED" if failed else "CONFIRMED", "from": sender, "to": recipient, "amount_vsg": str(Decimal(value) / WEI), "timestamp": item.get("timeStamp"), "block_number": item.get("blockNumber"), "explorer_url": f"{EXPLORER}/tx/{item['hash']}"})
-            return Response({"items": items, "history_complete": True, "source": "VSC Explorer API", "asset": "native VSG"})
+            has_more = len(result) >= page_size
+            return Response({"items": items, "page": page, "page_size": page_size, "has_more": has_more, "history_complete": not has_more, "source": "VSC Explorer API", "asset": "native VSG"})
         except Exception as exc:
             return Response({"detail": "VSC transaction history is temporarily unavailable. Use the explorer link to inspect this wallet."}, status=503)
