@@ -61,3 +61,5 @@ databases:
     plan: free
     databaseName: virtual_bank
     user: virtual_bank
+
+# Deployment commands: keep database migrations in startup, not build.
