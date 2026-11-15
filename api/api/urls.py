@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from users import views as users_views
 from accounts import views as accounts_views
@@ -64,5 +64,5 @@ urlpatterns = [
     path("transfers/", transactions_views.TransferHistory.as_view(), name="transfer_history"),
     path("transfers/create/", transactions_views.CreateTransferTransaction.as_view(), name="transfer_creation"),
     path("transfers/<uuid:identifier>/", transactions_views.TransferDetails.as_view(), name="transfer_detail"),
-    path("vsc/", __import__("django.urls", fromlist=["include"]).include("vsc_wallet.urls")),
+    path("vsc/", include("vsc_wallet.urls")),
 ]
