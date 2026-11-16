@@ -2,7 +2,6 @@ import { postData } from "./main.js";
 
 const accountModal = document.querySelector("header + aside.account-form") || document.querySelector("aside.account-form:not(.quick-transfer-form):not(.quick-deposit-form)");
 const welcomeCreateAccountBtn = document.querySelector("#welcome-create-account-btn");
-const createAccountBtn = document.querySelector("#create-account-btn");
 const accountNameInput = document.querySelector("#new-account-name");
 
 function openAccountModal() {
@@ -14,21 +13,6 @@ function openAccountModal() {
 }
 
 welcomeCreateAccountBtn?.addEventListener("click", openAccountModal);
-
-createAccountBtn?.addEventListener("click", async () => {
-  const form = createAccountBtn.closest("form");
-  if (!form || !form.reportValidity()) return;
-  createAccountBtn.disabled = true;
-  createAccountBtn.textContent = "Creating...";
-  const result = await postData("/accounts/create-account/", new FormData(form));
-  if (result?.status === "success") {
-    window.location.href = "/dashboard/";
-    return;
-  }
-  createAccountBtn.disabled = false;
-  createAccountBtn.textContent = "Create";
-  window.alert(result?.message || "The account could not be created. Please try again.");
-});
 
 document.querySelectorAll(".cancel-overlay-btn, #cancel-account-btn").forEach(button => {
   button.addEventListener("click", () => button.closest("aside")?.classList.add("d-none"));
