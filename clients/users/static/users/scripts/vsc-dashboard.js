@@ -11,6 +11,9 @@
   const list = document.getElementById("vsc-wallet-list");
   const addressInput = document.getElementById("vsc-wallet-address");
   const registerButton = document.getElementById("vsc-register-wallet");
+  const skipWalletButton = document.getElementById("vsc-skip-wallet");
+  const showExistingButton = document.getElementById("vsc-show-existing");
+  const existingWalletForm = document.getElementById("vsc-existing-wallet-form");
   const connectButton = document.createElement("button");
   connectButton.type = "button";
   connectButton.className = "btn btn-outline-primary btn-sm ms-2";
@@ -204,6 +207,11 @@
       list.replaceChildren(element("p", "text-danger", error.message));
     }
   }
+  skipWalletButton?.addEventListener("click", () => { root.classList.add("d-none"); });
+  showExistingButton?.addEventListener("click", () => {
+    existingWalletForm?.classList.toggle("d-none");
+    if (existingWalletForm && !existingWalletForm.classList.contains("d-none")) addressInput?.focus();
+  });
   connectButton.addEventListener("click", async () => {
     connectButton.disabled = true;
     try { await connectWallet(); }
