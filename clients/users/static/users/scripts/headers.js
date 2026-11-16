@@ -1,6 +1,35 @@
 import { postData } from "./main.js";
 
 const accountID = document.getElementById("account-id");
+
+const accountModal = document.querySelector("aside.account-form:not(.quick-transfer-form):not(.quick-deposit-form)");
+const accountNameInput = document.getElementById("new-account-name");
+const createAccountButton = document.getElementById("create-account-btn");
+document.querySelectorAll(".add-account").forEach(input => {
+  input.addEventListener("change", () => {
+    if (accountNameInput && input.value.trim()) accountNameInput.value = input.value.trim();
+    accountModal?.classList.remove("d-none");
+    accountNameInput?.focus();
+  });
+});
+createAccountButton?.addEventListener("click", async () => {
+  const formElement = createAccountButton.closest("form");
+  if (!formElement || !formElement.reportValidity()) return;
+  createAccountButton.disabled = true;
+  createAccountButton.textContent = "Creating...";
+  const result = await postData("/accounts/create-account/", new FormData(formElement));
+  if (result?.status === "success") {
+    window.location.href = "/dashboard/";
+    return;
+  }
+  createAccountButton.disabled = false;
+  createAccountButton.textContent = "Create";
+  window.alert(result?.message || "The account could not be created. Please try again.");
+});
+document.querySelectorAll(".cancel-overlay-btn").forEach(button => {
+  button.addEventListener("click", () => button.closest("aside")?.classList.add("d-none"));
+});
+
 const renameAccount = document.querySelectorAll(".rename-account");
 const unreadContainer = document.querySelector(".unread-notifications > span");
 const unreadNotifications = document.querySelector(".unread-notifications");
