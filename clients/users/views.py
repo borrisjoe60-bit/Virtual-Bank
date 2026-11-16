@@ -148,3 +148,36 @@ class LogoutView(auth_views.LogoutView):
         response.delete_cookie("vb_rtoken")
 
         return response
+
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        user = request.user
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip().lower()
+        if not first_name or not last_name or not email:
+            messages.error(request, 'First name, last name and email are required.')
+        elif User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            messages.error(request, 'That email address is already in use.')
+        else:
+            user.first_name, user.last_name, user.email = first_name, last_name, email
+            phone = request.POST.get('phone_number', '').strip()
+            user.phone_number = int(phone) if phone.isdigit() else None
+            for field in ('address', 'city', 'state', 'country'):
+                setattr(user, field, request.POST.get(field, '').strip())
+            user.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('users:profile')
+    return render(request, 'users/profile.html', {'title': 'My Profile'})
+
+@login_required
+def settings_view(request):
+    return render(request, 'users/settings.html', {'title': 'Account Settings'})
+
+@login_required
+def kyc_view(request):
+    return render(request, 'users/kyc.html', {'title': 'Identity Verification'})
