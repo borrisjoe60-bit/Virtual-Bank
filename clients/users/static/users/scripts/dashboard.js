@@ -53,7 +53,8 @@ document.querySelectorAll(".main-nav a").forEach(link => {
       trigger.click();
       return;
     }
-    const target = document.querySelector(link.getAttribute("href"));
+    const hash = new URL(link.href, window.location.href).hash;
+    const target = hash ? document.querySelector(hash) : null;
     if (!target) {
       event.preventDefault();
       const setup = document.querySelector("#account-setup");
