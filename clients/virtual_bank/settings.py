@@ -31,6 +31,21 @@ DEBUG = True if os.getenv("DEV", "False") == "True" else False
 
 ALLOWED_HOSTS = ['*']
 
+# Trust the public HTTPS origins used by the Render customer website.
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://virtual-bank-web.onrender.com"
+    ).split(",")
+    if origin.strip()
+]
+
+# Render terminates HTTPS at its proxy; tell Django the original request was secure.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+
 # API Configuration
 API_HOST = os.getenv("API_HOST", "localhost")
 API_PORT = os.getenv("API_PORT", "8030")
