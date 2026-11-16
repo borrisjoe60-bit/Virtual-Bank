@@ -108,7 +108,8 @@
         </span>
       {% endif %}
     </div>
-    <a href="#" class="bg-body-tertiary rounded-pill overflow-hidden profile profile-glow"><img src="{{ request.user.profile_picture.url }}" alt="profile" class="profile-image" title="{{ user.get_full_name }}" /></a>
+    <a href="{% url 'users:profile' %}" class="bg-body-tertiary rounded-pill overflow-hidden profile profile-glow"><img src="{{ request.user.profile_picture.url }}" alt="profile" class="profile-image" title="{{ user.get_full_name }}" /></a>
+    <nav class="aurex-user-links"><a href="{% url 'users:profile' %}">Profile</a><a href="{% url 'users:kyc' %}">KYC</a><a href="{% url 'users:settings' %}">Settings</a></nav>
     <!-- profile -->
   </div>
 </header>
