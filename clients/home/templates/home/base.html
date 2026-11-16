@@ -98,23 +98,23 @@
         </div>
       </div>
 
-      <div class="row align-items-center .d-inline-flex d-md-none">
+      <div class="row align-items-center d-inline-flex d-md-none">
         <div class="col">
           <h1 class="logo d-flex deltune-home-logo">DELTUNE <b>BANK</b></h1>
         </div>
-        <a data-bs-toggle="offcanvas" class="col-2 menu" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"><!-- <img src="" alt="menu"> --></a>
+        <a data-bs-toggle="offcanvas" class="col-2 menu" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu" aria-label="Open navigation menu"></a>
 
-        <div class="offcanvas bg-dark offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas offcanvas-start deltune-mobile-menu" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
           <div class="offcanvas-header">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="filter: invert(1)"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
             <div class="col-12 col-md d-flex mb-4">
               <nav>
-                <a href="#" class="text-decoration-none text-white row mx-2 mb-3 link-secondary">About Us</a>
-                <a href="#" class="text-decoration-none text-white row mx-2 mb-3 link-secondary">Contact Us</a>
-                <a href="http://127.0.0.1:8030/swagger/" class="text-decoration-none text-white row mx-2 mb-3 link-secondary">Developers</a>
-                <a href="http://127.0.0.1:8030/redoc/" class="text-decoration-none text-white row mx-2 mb-3 link-secondary">Documentation</a>
+                <a href="{% url 'home:about' %}" class="text-decoration-none row mx-2 mb-3">About Us</a>
+                <a href="#" class="text-decoration-none row mx-2 mb-3">Contact Us</a>
+                <a href="{{ API_URL }}/swagger/" class="text-decoration-none row mx-2 mb-3">Developers</a>
+                <a href="{{ API_URL }}/redoc/" class="text-decoration-none row mx-2 mb-3">Documentation</a>
               </nav>
             </div>
             <div class="col-12 col-md-auto">
