@@ -1,5 +1,6 @@
 {% extends "users/base.html" %}
 {% block content %}
+{% include "users/includes/header.html" %}
 <div class="aurex-page">
   <div class="aurex-page-heading"><span class="aurex-kicker">SECURITY & PREFERENCES</span><h1>Account settings</h1><p>Manage your sign-in and account preferences.</p></div>
   <div class="aurex-panel aurex-settings-list">
@@ -10,4 +11,5 @@
   </div>
   <a class="aurex-back-link" href="{% url 'users:dashboard' %}">← Back to dashboard</a>
 </div>
+{% include "users/includes/footer.html" %}
 {% endblock %}
