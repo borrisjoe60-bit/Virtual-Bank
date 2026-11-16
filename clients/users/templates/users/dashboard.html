@@ -5,7 +5,8 @@
 {% block content %}
   {% include 'users/includes/header.html' %}
   <main class="float-end">
-    <div class="aurex-prototype-notice">AUREX BANK prototype: account balances and transactions are simulated. This site is not a licensed bank and does not hold or transfer real money.</div>
+    <h1 class="deltune-welcome-heading">Welcome to Deltune Bank, {{ request.user.first_name|default:request.user.get_full_name }}.</h1>
+    <div class="aurex-prototype-notice">DELTUNE BANK prototype: account balances and transactions are simulated. This site is not a licensed bank and does not hold or transfer real money.</div>
 
 
 
