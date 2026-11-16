@@ -1,0 +1,13 @@
+{% extends "users/base.html" %}
+{% block content %}
+{% include "users/includes/header.html" %}
+<main class="float-end deltune-inner-page">
+ <div class="deltune-page-head"><div><span class="deltune-eyebrow">ACCOUNT UPDATES</span><h1>Notifications</h1><p>Security, account and transaction messages for your profile.</p></div><a class="deltune-outline-button" href="{% url 'users:dashboard' %}">Back to overview</a></div>
+ <section class="deltune-notification-list">
+ {% for note in notifications %}
+ <article class="deltune-notification-row"><span class="deltune-notification-dot {% if note.status == 'READ' %}read{% endif %}"></span><div><strong>{{ note.get_notification_type_display }}</strong><p>{{ note.content }}</p><small>{{ note.created_date|date:"d M Y, H:i" }}</small></div><span class="deltune-notification-status">{{ note.get_status_display }}</span></article>
+ {% empty %}<div class="deltune-history-empty"><strong>You’re all caught up</strong><p>New account and security notifications will appear here.</p></div>{% endfor %}
+ </section>
+</main>
+{% include "users/includes/footer.html" %}
+{% endblock %}
