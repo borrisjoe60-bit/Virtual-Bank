@@ -64,16 +64,16 @@
 
     <div>
       {% if request.user.account_set.all %}
-        <div class="dashboard">
+        <div class="dashboard" id="overview">
           <div>
             <!-- Quick Transactions -->
-            <div class="quick-transaction">
-              <button class="quick-transfer rounded-1 p-2 fw-semibold shadow-sm">Quick Transfer</button>
-              <button class="quick-deposit rounded-1 p-2 fw-semibold shadow-sm">Quick deposit</button>
+            <div class="quick-transaction" id="transfer-actions">
+              <button class="quick-transfer rounded-1 p-2 fw-semibold shadow-sm" id="transfer-button">Quick Transfer</button>
+              <button class="quick-deposit rounded-1 p-2 fw-semibold shadow-sm" id="deposit-actions">Quick deposit</button>
             </div>
 
             <!-- account status card -->
-            <div class="account-cards border border-black w-73 bg-white rounded-4 shadow mt-5 d-flex flex-column justify-content-evenly">
+            <div class="account-cards border border-black" id="account-card-overview" w-73 bg-white rounded-4 shadow mt-5 d-flex flex-column justify-content-evenly">
               <div class="mx-5 d-flex justify-content-between">
                 <span class="text-secondary fs-6 fw-light">Available balance</span>
                 <span class="fs-6">{{ request.session.account.account_type }}</span>
@@ -121,7 +121,7 @@
             
             {% comment %} Warning: Don't do this {% if (recent_transactions.all|length) > 0 %}  avoid wrapping in bracket {% endcomment %}
             {% if recent_transactions.all|length > 0 %}
-              <div class="recent-transactions mt-3">
+              <div class="recent-transactions mt-3" id="transaction-history">
                 <h2>Recent Transactions</h2>
                 <div class="d-flex transactions column-gap-2">
                   {% for transaction in recent_transactions %}
@@ -193,34 +193,18 @@
           </div>
         </div>
       {% else %}
-        <section class="deltune-premium">
-          <div class="deltune-dashboard-intro">
-            <div><span class="deltune-eyebrow">PRIVATE CLIENT EXPERIENCE</span><h2>Your financial overview</h2><p>Welcome back, {{ request.user.first_name|default:request.user.get_full_name }}. Your account workspace is ready to set up.</p></div>
-            <button id="welcome-create-account-btn" class="deltune-primary-button" type="button">Create simulated account</button>
-          </div>
-          <div class="deltune-preview-banner"><strong>PREVIEW DATA</strong><span>The transactions and figures below are illustrative interface samples only. They are not your account activity, real funds, or actual banking services.</span></div>
-          <div class="deltune-summary-grid">
-            <article class="deltune-summary-card"><span>Total premium spend</span><strong>$248,650.00</strong><small>Illustrative 30-day sample</small></article>
-            <article class="deltune-summary-card"><span>Largest transaction</span><strong>$125,000.00</strong><small>Sample private investment</small></article>
-            <article class="deltune-summary-card"><span>Average transaction</span><strong>$18,475.00</strong><small>Illustrative sample value</small></article>
-          </div>
-          <div class="deltune-chart-card">
-            <div class="deltune-section-heading"><div><span class="deltune-eyebrow">ACTIVITY INSIGHTS</span><h3>Spending overview</h3></div><span class="deltune-period">Last 30 days · sample</span></div>
-            <svg class="deltune-sample-chart" viewBox="0 0 900 170" role="img" aria-label="Illustrative spending trend line chart"><defs><linearGradient id="deltuneFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bd1e32" stop-opacity=".22"/><stop offset="1" stop-color="#bd1e32" stop-opacity="0"/></linearGradient></defs><path d="M0 135 C70 120 75 85 145 100 S230 125 290 78 S390 110 450 65 S540 95 600 45 S690 82 750 34 S830 58 900 18 L900 170 L0 170Z" fill="url(#deltuneFill)"/><path d="M0 135 C70 120 75 85 145 100 S230 125 290 78 S390 110 450 65 S540 95 600 45 S690 82 750 34 S830 58 900 18" fill="none" stroke="#bd1e32" stroke-width="4" stroke-linecap="round"/></svg>
-            <div class="deltune-chart-labels"><span>30 days ago</span><span>15 days ago</span><span>Today</span></div>
-          </div>
-          <div class="deltune-transactions-card">
-            <div class="deltune-section-heading"><div><span class="deltune-eyebrow">ACCOUNT ACTIVITY PREVIEW</span><h3>Transaction history</h3></div><span class="deltune-period">Sample records</span></div>
-            <div class="deltune-filter-row"><div class="deltune-filters"><button class="active" data-filter="all">All</button><button data-filter="incoming">Incoming</button><button data-filter="outgoing">Outgoing</button><button data-filter="investment">Investments</button><button data-filter="lifestyle">Lifestyle</button><button data-filter="crypto">Crypto</button></div><input id="deltune-transaction-search" type="search" placeholder="Search sample activity..." aria-label="Search sample transactions"></div>
-            <div class="deltune-transaction-list" id="deltune-transaction-list">
-              <article class="deltune-transaction-row" data-category="investment" data-direction="outgoing"><span class="deltune-transaction-icon">↗</span><span class="deltune-transaction-name"><strong>Meridian Private Capital</strong><small>Investment · International portfolio</small></span><span class="deltune-transaction-date">Nov 15, 2026 · 10:42 AM</span><span class="deltune-transaction-amount">−$125,000.00</span><span class="deltune-status completed">Completed</span></article>
-              <article class="deltune-transaction-row" data-category="lifestyle" data-direction="outgoing"><span class="deltune-transaction-icon">◇</span><span class="deltune-transaction-name"><strong>Azure Yacht Collection</strong><small>Lifestyle · Luxury asset payment</small></span><span class="deltune-transaction-date">Nov 14, 2026 · 2:18 PM</span><span class="deltune-transaction-amount">−$48,500.00</span><span class="deltune-status processing">Processing</span></article>
-              <article class="deltune-transaction-row" data-category="incoming" data-direction="incoming"><span class="deltune-transaction-icon">↓</span><span class="deltune-transaction-name"><strong>Northstar Private Wealth</strong><small>Transfer · Wealth deposit</small></span><span class="deltune-transaction-date">Nov 13, 2026 · 9:05 AM</span><span class="deltune-transaction-amount incoming">+$85,000.00</span><span class="deltune-status completed">Completed</span></article>
-              <article class="deltune-transaction-row" data-category="crypto" data-direction="outgoing"><span class="deltune-transaction-icon">₿</span><span class="deltune-transaction-name"><strong>Digital Asset Exchange</strong><small>Crypto · Crypto-to-fiat conversion</small></span><span class="deltune-transaction-date">Nov 12, 2026 · 4:36 PM</span><span class="deltune-transaction-amount">−$12,750.00</span><span class="deltune-status completed">Completed</span></article>
-              <article class="deltune-transaction-row" data-category="lifestyle" data-direction="outgoing"><span class="deltune-transaction-icon">▧</span><span class="deltune-transaction-name"><strong>Maison de Verre</strong><small>Lifestyle · Fine art acquisition</small></span><span class="deltune-transaction-date">Nov 11, 2026 · 11:20 AM</span><span class="deltune-transaction-amount">−$32,400.00</span><span class="deltune-status pending">Pending</span></article>
-              <article class="deltune-transaction-row" data-category="transfer" data-direction="outgoing"><span class="deltune-transaction-icon">⇄</span><span class="deltune-transaction-name"><strong>Global Treasury Services</strong><small>Transfer · International wire</small></span><span class="deltune-transaction-date">Nov 10, 2026 · 8:52 AM</span><span class="deltune-transaction-amount">−$30,000.00</span><span class="deltune-status completed">Completed</span></article>
+        <section class="deltune-account-setup" id="account-setup">
+          <div class="deltune-setup-card">
+            <span class="deltune-eyebrow">ALEX WEBER · ACCOUNT SETUP</span>
+            <h2>Your banking workspace starts here</h2>
+            <p>Your login is ready, but Alex does not have a Savings or Current account created yet. Create an account below to attach the balance, account details and future transaction history to this profile.</p>
+            <div class="deltune-setup-details">
+              <div><span>Account holder</span><strong>{{ request.user.get_full_name }}</strong></div>
+              <div><span>Starting balance</span><strong>Shown after account creation</strong></div>
+              <div><span>Account activity</span><strong>Only Alex's saved records</strong></div>
             </div>
-            <p class="deltune-empty-filter" hidden>No sample transactions match your search.</p>
+            <button id="welcome-create-account-btn" class="deltune-primary-button" type="button">Create Alex's account</button>
+            <small class="deltune-setup-note">Prototype account only. Any displayed starting balance is simulated and is not real money.</small>
           </div>
         </section>
       {% endif %}
