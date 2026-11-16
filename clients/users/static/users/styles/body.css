@@ -276,3 +276,31 @@ aside.main-nav .icon{max-width:22px;max-height:22px;object-fit:cover}
 }
 
 @media(max-width:760px){.aurex-page{width:calc(100% - 30px);margin:82px auto 100px!important}.aurex-page .aurex-panel{padding:17px}.aurex-settings-list a{padding:15px 2px}}
+
+/* Refined banking-style transaction ledger */
+.deltune-history-account{display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:16px;background:linear-gradient(115deg,#9f1022,#68101d);padding:18px 22px}
+.deltune-history-account>div{display:flex;flex-direction:column;gap:5px}
+.deltune-history-account-label{font-size:9px;letter-spacing:1.2px;color:#f4cbd0;font-weight:800}
+.deltune-history-toolbar{align-items:end;flex-wrap:wrap;background:#fff;border:1px solid #eee5e7;border-radius:16px;padding:16px;box-shadow:0 8px 22px #21101808}
+.deltune-history-toolbar label{display:flex;flex:1;min-width:130px;flex-direction:column;gap:6px;color:#776e74;font-size:10px;font-weight:750}
+.deltune-history-toolbar input,.deltune-history-toolbar select{width:100%;font-size:12px;color:#29242a}
+.deltune-history-toolbar .deltune-history-search{flex:1.5}
+.deltune-history-apply{min-height:45px;border:0;border-radius:11px;background:#a90f24;color:#fff;padding:0 18px;font-size:11px;font-weight:800}
+.deltune-history-reset{font-size:11px;font-weight:750;color:#a90f24;padding:12px 5px}
+.deltune-history-period{font-size:11px;color:#81777e;margin:14px 2px}
+.deltune-history-list{padding:0 18px}
+.deltune-history-table-head{display:grid;grid-template-columns:minmax(0,1fr) 150px 170px 85px;gap:12px;padding:15px 5px;border-bottom:1px solid #eee6e8;color:#8a8086;font-size:9px;font-weight:850;letter-spacing:.8px}
+.deltune-history-row{grid-template-columns:38px minmax(0,1fr) 150px 170px 85px}
+.deltune-history-date{font-size:11px;color:#776e74}
+.deltune-history-status{justify-self:start;background:#eef8f2;color:#18744e;border-radius:20px;padding:5px 9px;font-size:9px;font-weight:800}
+@media(max-width:760px){
+ .deltune-history-account{display:flex;flex-direction:column;align-items:flex-start}
+ .deltune-history-toolbar{display:grid;grid-template-columns:1fr 1fr}
+ .deltune-history-toolbar .deltune-history-search{grid-column:1/-1}
+ .deltune-history-apply{width:100%}
+ .deltune-history-table-head{display:none}
+ .deltune-history-row{grid-template-columns:34px minmax(0,1fr) auto;gap:8px}
+ .deltune-history-date{grid-column:2;font-size:9px}
+ .deltune-history-amount{grid-column:3;grid-row:1/3}
+ .deltune-history-status{display:none}
+}
