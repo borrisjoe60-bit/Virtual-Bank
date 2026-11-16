@@ -10,6 +10,8 @@ from .utils import get_client_ip
 from django.contrib.auth import views as auth_views
 from notifications.utils import process_notifications
 from transactions.models import Transaction
+from notifications.models import Notification
+from accounts.models import Account
 from django.db.models import Q, Sum
 from django.contrib.auth import logout
 from django.shortcuts import redirect
@@ -165,15 +167,47 @@ def profile_view(request):
         elif User.objects.filter(email=email).exclude(pk=user.pk).exists():
             messages.error(request, 'That email address is already in use.')
         else:
-            user.first_name, user.last_name, user.email = first_name, last_name, email
-            phone = request.POST.get('phone_number', '').strip()
-            user.phone_number = int(phone) if phone.isdigit() else None
-            for field in ('address', 'city', 'state', 'country'):
-                setattr(user, field, request.POST.get(field, '').strip())
-            user.save()
-            messages.success(request, 'Your profile has been updated.')
-            return redirect('users:profile')
+            photo = request.FILES.get('profile_picture')
+            if photo and photo.size > 5 * 1024 * 1024:
+                messages.error(request, 'Profile photo must be 5 MB or smaller.')
+            elif photo and not photo.content_type.startswith('image/'):
+                messages.error(request, 'Please upload a valid image file.')
+            else:
+                user.first_name, user.last_name, user.email = first_name, last_name, email
+                phone = request.POST.get('phone_number', '').strip()
+                user.phone_number = int(phone) if phone.isdigit() else None
+                for field in ('address', 'city', 'state', 'country'):
+                    setattr(user, field, request.POST.get(field, '').strip())
+                if photo:
+                    user.profile_picture = photo
+                user.save()
+                messages.success(request, 'Your profile has been updated.')
+                return redirect('users:profile')
     return render(request, 'users/profile.html', {'title': 'My Profile'})
+
+
+@login_required
+def transaction_history_view(request):
+    account_data = request.session.get('account')
+    account = None
+    transactions = Transaction.objects.none()
+    if account_data:
+        account = Account.objects.filter(pk=account_data.get('pk'), user=request.user).first()
+    if account:
+        transactions = Transaction.objects.filter(
+            Q(account=account) | Q(payer=account) | Q(payee=account)
+        ).select_related('account', 'payer__user', 'payee__user').order_by('-date')
+    return render(request, 'users/transaction_history.html', {
+        'title': 'Transaction History', 'account': account, 'transactions': transactions,
+    })
+
+
+@login_required
+def notifications_view(request):
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_date')
+    return render(request, 'users/notifications.html', {
+        'title': 'Notifications', 'notifications': notifications,
+    })
 
 @login_required
 def settings_view(request):
