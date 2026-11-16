@@ -112,3 +112,13 @@ header .notification-icon:hover~.unread-notifications, .unread-notifications:hov
 header .focus-glow:focus {
     border-bottom: 2px solid #5E3FBE;
 }
+
+/* Aurex Bank brand styling */
+header { background: #fff; border-bottom: 2px solid #b51224; }
+.aurex-brand { display:flex; align-items:center; gap:9px; color:#b51224; font-size:18px; font-weight:800; letter-spacing:1px; white-space:nowrap; }
+.aurex-brand:hover { color:#8f0d1b; }
+.aurex-brand b { color:#28242a; font-weight:600; }
+.aurex-mark { width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:#b51224; color:#fff; font-family:Georgia,serif; font-size:23px; box-shadow:0 3px 8px #b5122430; }
+header .searchbar { border-color:#e6b7bd; background:#fffafa; }
+aside.main-nav { border-right-color:#b51224; background:#fff; }
+@media(max-width:700px) { .aurex-brand { font-size:14px; gap:5px; } .aurex-mark { width:29px; height:29px; font-size:19px; } header .searchbar { display:none !important; } }
