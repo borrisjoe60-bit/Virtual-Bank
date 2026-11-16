@@ -50,6 +50,44 @@ services:
       - key: API_URL
         value: https://virtual-bank-api.onrender.com
 
+  - type: web
+    name: virtual-bank-web
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.client
+    dockerContext: .
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEV
+        value: "False"
+      - key: DB_NAME
+        fromDatabase:
+          name: virtual-bank-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: virtual-bank-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: virtual-bank-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: virtual-bank-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: virtual-bank-db
+          property: port
+      - key: API_URL
+        value: https://virtual-bank-api.onrender.com
+      - key: PUBLIC_API_URL
+        value: https://virtual-bank-api.onrender.com
+
   - type: keyvalue
     name: virtual-bank-redis
     plan: free
@@ -62,4 +100,4 @@ databases:
     databaseName: virtual_bank
     user: virtual_bank
 
-# Generate missing app migrations during build; apply them at service startup.
+# The API and customer-facing web app share the PostgreSQL database.
