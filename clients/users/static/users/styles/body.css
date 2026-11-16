@@ -209,3 +209,68 @@ aside.main-nav a{min-height:48px}
  .account-form .form-group button{min-height:45px}
 }
 @media(min-width:761px) and (max-width:1050px){.dashboard{grid-template-columns:1fr;gap:20px}main.float-end{width:calc(100% - 95px)}}
+
+
+/* Deltune account centre and mobile banking navigation */
+.deltune-inner-page{max-width:1120px!important}
+.deltune-page-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0 0 22px}
+.deltune-page-head h1{font-size:clamp(26px,4vw,36px);font-weight:850;letter-spacing:-1px;margin:0;color:#28242a}
+.deltune-page-head p{color:#7b7379;margin:7px 0 0}
+.deltune-outline-button{border:1px solid #ead6da;border-radius:999px;padding:11px 17px;color:#9f1020;font-size:12px;font-weight:750;background:#fff}
+.deltune-prototype-note{background:#fff4f5;border:1px solid #f0cbd0;border-left:4px solid #b51224;padding:12px 15px;border-radius:12px;color:#7c2631;font-size:12px;margin-bottom:16px}
+.deltune-history-account{display:flex;justify-content:space-between;gap:12px;background:linear-gradient(120deg,#a60f23,#74101d);color:#fff;border-radius:15px;padding:16px 19px;margin:16px 0}
+.deltune-history-account span{font-weight:750}.deltune-history-account strong{font-size:12px;letter-spacing:.5px}
+.deltune-history-toolbar{display:flex;gap:10px;margin:18px 0}
+.deltune-history-toolbar input,.deltune-history-toolbar select{min-height:45px;border:1px solid #eadde0;border-radius:12px;padding:10px 14px;background:#fff;min-width:0}
+.deltune-history-toolbar input{flex:1}.deltune-history-toolbar select{width:190px}
+.deltune-history-list,.deltune-notification-list{background:#fff;border:1px solid #eee5e7;border-radius:18px;box-shadow:0 12px 32px #21101808;padding:4px 18px}
+.deltune-history-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:13px;padding:16px 4px;border-bottom:1px solid #f1eaec}
+.deltune-history-row:last-of-type{border-bottom:0}
+.deltune-history-symbol{width:38px;height:38px;display:grid;place-items:center;background:#fff0f2;border-radius:13px;color:#a71226;font-size:19px;font-weight:800}
+.deltune-history-main strong{display:block;font-size:13px;color:#302a30}
+.deltune-history-main small,.deltune-history-main time{display:block;color:#887f85;font-size:10px;margin-top:4px}
+.deltune-history-amount{text-align:right;white-space:nowrap;font-size:13px;font-weight:850;color:#a91428}
+.deltune-history-amount.incoming{color:#167d58}
+.deltune-history-amount small{display:block;color:#8b8288;font-size:9px;font-weight:600;margin-top:4px}
+.deltune-history-empty{text-align:center;padding:42px 18px;color:#80777e}
+.deltune-history-empty strong{display:block;color:#302a30;font-size:17px;margin-bottom:6px}
+.deltune-history-empty p{font-size:12px;margin-bottom:10px}
+.deltune-notification-row{display:flex;align-items:flex-start;gap:13px;padding:18px 4px;border-bottom:1px solid #f1eaec}
+.deltune-notification-row:last-child{border-bottom:0}
+.deltune-notification-dot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#b51224;margin-top:6px}
+.deltune-notification-dot.read{background:#c8c2c5}
+.deltune-notification-row>div{flex:1;min-width:0}
+.deltune-notification-row strong{font-size:13px;color:#302a30}
+.deltune-notification-row p{font-size:12px;color:#70676e;margin:5px 0}
+.deltune-notification-row small{font-size:10px;color:#91878d}
+.deltune-notification-action{display:flex;align-items:center;gap:10px;flex-direction:column}
+.deltune-notification-status{font-size:10px;color:#8a8087}
+.mark-notification-read button{border:0;background:#fff0f2;color:#a51226;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:750}
+.deltune-profile-photo{display:flex;align-items:center;gap:18px;padding-bottom:22px;margin-bottom:18px;border-bottom:1px solid #f0e5e7}
+.deltune-profile-photo img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 0 0 1px #e9cbd0}
+.deltune-profile-photo strong,.deltune-profile-photo small{display:block}
+.deltune-profile-photo small{font-size:11px;color:#80777e;margin-top:4px}
+.deltune-settings-symbol{display:grid;place-items:center;font-size:22px;color:#a51226}
+aside.main-nav .icon{max-width:22px;max-height:22px;object-fit:cover}
+@media(max-width:760px){
+ .deltune-inner-page{width:100%!important;margin:82px auto 24px!important;padding:0 15px!important}
+ .deltune-page-head{align-items:flex-start;flex-direction:column}
+ .deltune-outline-button{width:100%;text-align:center}
+ .deltune-history-account{flex-direction:column;gap:7px}
+ .deltune-history-toolbar{flex-direction:column}
+ .deltune-history-toolbar select{width:100%}
+ .deltune-history-list,.deltune-notification-list{padding:3px 12px;border-radius:15px}
+ .deltune-history-row{grid-template-columns:36px minmax(0,1fr) auto;gap:9px;padding:14px 0}
+ .deltune-history-symbol{width:34px;height:34px}
+ .deltune-history-main strong{font-size:11px}
+ .deltune-history-main small{font-size:9px;overflow-wrap:anywhere}
+ .deltune-history-main time{font-size:9px}
+ .deltune-history-amount{font-size:11px}
+ .deltune-notification-row{gap:9px}
+ .deltune-notification-action{gap:5px}
+ .deltune-profile-photo{align-items:flex-start;flex-direction:column}
+ aside.main-nav{gap:0!important;padding-left:2px!important;padding-right:2px!important}
+ aside.main-nav a{flex:1;min-width:0;padding:0 1px}
+ aside.main-nav a::after{font-size:8px;letter-spacing:-.2px}
+ aside.main-nav .icon{width:18px!important;height:18px!important}
+}
