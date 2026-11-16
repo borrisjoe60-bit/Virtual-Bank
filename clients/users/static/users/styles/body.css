@@ -125,3 +125,11 @@ main {
     width: 90%;
     height: fit-content;
 }
+
+/* Red and white banking dashboard accents */
+.quick-transfer { background-color:#b51224; border-color:#b51224 !important; color:#fff; }
+.quick-deposit { background-color:#fff1f2; border-color:#e8b6bd !important; color:#9f1020; }
+.account-cards { border-color:#b51224 !important; box-shadow:0 8px 24px #b5122415 !important; }
+.account-cards .account-balance { color:#b51224; }
+.recent-transactions .transactions > div { background-color:#9f1020; }
+#welcome-create-account-btn { background:#b51224 !important; color:#fff !important; }
