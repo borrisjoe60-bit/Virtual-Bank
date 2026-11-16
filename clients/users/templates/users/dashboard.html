@@ -6,7 +6,7 @@
   {% include 'users/includes/header.html' %}
   <main class="float-end">
     <h1 class="deltune-welcome-heading">Welcome to Deltune Bank, {{ request.user.first_name|default:request.user.get_full_name }}.</h1>
-    <div class="aurex-prototype-notice">DELTUNE BANK prototype: account balances and transactions are simulated. This site is not a licensed bank and does not hold or transfer real money.</div>
+    <div class="aurex-prototype-notice">DELTUNE BANK prototype service. This is not a licensed bank and does not hold or transfer real funds.</div>
 
 
 
@@ -82,7 +82,7 @@
                     <span class="badge text-bg-light">Savings</span>
                   </div>
                   <div class="fs-2 account-balance mt-3">{{ request.session.account.currency|currency_to_unicode|safe }}{{ deltune_available_balance|floatformat:2|intcomma }}</div>
-                  <small class="text-secondary mt-2">Funds shown as available in this simulated account</small>
+                  <small class="text-secondary mt-2">Available funds</small>
                 </section>
               </div>
               <div class="col-12 col-md-6">
@@ -92,7 +92,7 @@
                     <span class="badge text-bg-light">Savings</span>
                   </div>
                   <div class="fs-2 account-balance mt-3">{{ request.session.account.currency|currency_to_unicode|safe }}{{ deltune_current_balance|floatformat:2|intcomma }}</div>
-                  <small class="text-secondary mt-2">Current ledger balance in this simulated account</small>
+                  <small class="text-secondary mt-2">Current ledger balance</small>
                 </section>
               </div>
               <div class="col-12">
@@ -233,7 +233,7 @@
               <div><span>Account activity</span><strong>Only Alex's saved records</strong></div>
             </div>
             <button id="welcome-create-account-btn" class="deltune-primary-button" type="button">Create Alex's account</button>
-            <small class="deltune-setup-note">Prototype account only. Any displayed starting balance is simulated and is not real money.</small>
+            <small class="deltune-setup-note">Prototype account only. No real funds are held or transferred.</small>
           </div>
         </section>
       {% endif %}
