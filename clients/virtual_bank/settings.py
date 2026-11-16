@@ -96,7 +96,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'virtual_bank.middleware.VerifyToken',
+    # Client authentication uses Django sessions; API token verification
+    # here logs users out on every request before they can finish signing in.
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
