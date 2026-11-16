@@ -10,13 +10,11 @@
   <div class="deltune-history-toolbar"><input id="history-search" type="search" placeholder="Search name, reference or description"><select id="history-filter"><option value="all">All activity</option><option value="incoming">Money in</option><option value="outgoing">Money out</option><option value="DEPOSIT">Deposits</option><option value="TRANSFER">Transfers</option><option value="DEBIT_CARD">Card activity</option></select></div>
   <section class="deltune-history-list">
     {% for item in transactions %}
-      {% with outgoing=item.payer_id == account.pk and item.transaction_type != 'DEPOSIT' %}
-      <article class="deltune-history-row" data-direction="{% if outgoing %}outgoing{% else %}incoming{% endif %}" data-type="{{ item.transaction_type }}">
+      <article class="deltune-history-row" data-direction="{% if item.is_outgoing %}outgoing{% else %}incoming{% endif %}" data-type="{{ item.transaction_type }}">
         <div class="deltune-history-symbol">{% if item.transaction_type == 'TRANSFER' %}↗{% elif item.transaction_type == 'DEBIT_CARD' %}▣{% else %}↓{% endif %}</div>
-        <div class="deltune-history-main"><strong>{% if item.transaction_type == 'TRANSFER' %}{% if outgoing %}Transfer to {{ item.payee.user.get_full_name|default:"Account holder" }}{% else %}Transfer from {{ item.payer.user.get_full_name|default:"Account holder" }}{% endif %}{% elif item.transaction_type == 'DEBIT_CARD' %}Card transaction{% else %}Deposit{% endif %}</strong><small>{{ item.description|default:item.get_transaction_type_display }} · Ref {{ item.identifier|truncatechars:14 }}</small><time>{{ item.date|date:"d M Y, H:i" }}</time></div>
-        <div class="deltune-history-amount {% if not outgoing %}incoming{% endif %}">{% if outgoing %}− {{ item.currency_sent }} {{ item.amount_sent|floatformat:2|intcomma }}{% else %}+ {{ item.currency_received }} {{ item.amount_received|floatformat:2|intcomma }}{% endif %}<small>Recorded</small></div>
+        <div class="deltune-history-main"><strong>{% if item.transaction_type == 'TRANSFER' %}{% if item.is_outgoing %}Transfer to {{ item.payee.user.get_full_name|default:"Account holder" }}{% else %}Transfer from {{ item.payer.user.get_full_name|default:"Account holder" }}{% endif %}{% elif item.transaction_type == 'DEBIT_CARD' %}Card transaction{% else %}Deposit{% endif %}</strong><small>{{ item.description|default:item.get_transaction_type_display }} · Ref {{ item.identifier|truncatechars:14 }}</small><time>{{ item.date|date:"d M Y, H:i" }}</time></div>
+        <div class="deltune-history-amount {% if not outgoing %}incoming{% endif %}">{% if item.is_outgoing %}− {{ item.currency_sent }} {{ item.amount_sent|floatformat:2|intcomma }}{% else %}+ {{ item.currency_received }} {{ item.amount_received|floatformat:2|intcomma }}{% endif %}<small>Recorded</small></div>
       </article>
-      {% endwith %}
     {% empty %}
       <div class="deltune-history-empty"><strong>No transactions yet</strong><p>When this account has saved activity, it will appear here.</p></div>
     {% endfor %}
