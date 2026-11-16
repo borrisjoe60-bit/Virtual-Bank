@@ -43,7 +43,9 @@
   <a href="#"><img src="{% static 'users/images/notifications.png' %}" alt="notifications" class="icon" title="notifications" /></a>
 </aside>
 <header class="site-header px-3 d-flex flex-row justify-content-between align-items-center position-fixed w-100">
-  <div class="d-flex align-items-center">
+  <div class="brand-account d-flex align-items-center gap-3">
+    <a class="aurex-brand" href="/dashboard/" aria-label="Aurex Bank home"><span class="aurex-mark">A</span><span>AUREX <b>BANK</b></span></a>
+    <div class="d-flex align-items-center">
     <span>
       <img src="{% static 'users/images/accounts.png' %}" alt="accounts" class="accounts hover-pointer" title="account" />
       <div class="accounts-list position-absolute bg-body-tertiary border rounded-1 shadow-sm">
@@ -72,6 +74,7 @@
       {% endif %}
     </span>
   </div>
+    </div>
   <div class="searchbar rounded-pill p-2 w-50 d-flex align-items-center">
     <img src="{% static 'users/images/searchicon.png' %}" alt="search icon" class="search" />
     <input type="text" class="rounded-end-pill w-100 border-none bg-transparent" /> <!-- search bar -->
