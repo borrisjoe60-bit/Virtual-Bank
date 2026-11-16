@@ -2,46 +2,31 @@ FROM python:3.12.6
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV SECRET_KEY=virtual-bank-build-only-placeholder
 
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev gcc --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for security
 RUN useradd -m appuser
 
-# Install dependencies first (for better caching)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
 COPY --chown=appuser:appuser . .
 
-# Switch to appuser
 USER appuser
-
-# Set working directory for Clients
 WORKDIR /app/clients
 
-# Create staticfiles directory and ensure permissions are correct
-RUN mkdir -p staticfiles && \
-    chmod -R 755 staticfiles
-
-# Run collectstatic for client app
+RUN mkdir -p staticfiles && chmod -R 755 staticfiles
 RUN python manage.py collectstatic --noinput
 
-# Expose port for the client application
 EXPOSE 8040
 
-# Create client entrypoint script
 COPY --chown=appuser:appuser docker-client-entrypoint.sh /app/docker-client-entrypoint.sh
 RUN chmod +x /app/docker-client-entrypoint.sh
 
-# Use the entrypoint script
 ENTRYPOINT ["/app/docker-client-entrypoint.sh"]
-
-# Default command (can be overridden by docker-compose)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8040"]
+CMD ["sh", "-c", "daphne -b 0.0.0.0 -p ${PORT:-8040} virtual_bank.asgi:application"]
