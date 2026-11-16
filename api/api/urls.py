@@ -14,7 +14,7 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Virtual Bank API", default_version="v1",
+        title="Aurex Bank Prototype API", default_version="v1",
         description="Aurex Bank prototype API for simulated banking account and transaction workflows.",
         terms_of_service="https://www.google.com/policies/terms/",
         authentication_classes=("rest_framework_simplejwt.authentication.JWTAuthentication",),
