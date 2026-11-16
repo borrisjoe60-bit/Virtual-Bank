@@ -64,15 +64,22 @@ document.querySelectorAll(".main-nav a").forEach(link => {
   });
 });
 
-quickTransferBtn?.addEventListener("click", async e => {
-  const form = new FormData(e.target.closest("form"));
-  await postData("/transfers/create/", form, false, true);
-  quickTransferForm?.classList.add("d-none");
+async function submitBankingAction(button, endpoint, overlay) {
+  const formElement = button?.closest("form");
+  if (!formElement || !formElement.reportValidity()) return;
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = "Processing...";
+  const result = await postData(endpoint, new FormData(formElement), false, true);
+  const failed = result instanceof Error || !result || result.status === "failed" || result.detail || result.error || result.non_field_errors;
+  if (failed) {
+    button.disabled = false;
+    button.textContent = originalText;
+    window.alert(result?.message || result?.detail || "We could not process this request. Check the details and try again.");
+    return;
+  }
+  overlay?.classList.add("d-none");
   window.location.reload();
-});
-quickDepositBtn?.addEventListener("click", async e => {
-  const form = new FormData(e.target.closest("form"));
-  await postData("/deposits/create/", form, false, true);
-  quickDepositForm?.classList.add("d-none");
-  window.location.reload();
-});
+}
+quickTransferBtn?.addEventListener("click", () => submitBankingAction(quickTransferBtn, "/transfers/create/", quickTransferForm));
+quickDepositBtn?.addEventListener("click", () => submitBankingAction(quickDepositBtn, "/deposits/create/", quickDepositForm));
