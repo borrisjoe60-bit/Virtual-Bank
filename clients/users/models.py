@@ -18,11 +18,30 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.username:
             self.username = f"users_{User.objects.count() + 1}"
-        super().save(*args, **kwargs)
-        
-        img = Image.open(self.profile_picture.path)
 
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.profile_picture.path)
+        # Login updates last_login via save(update_fields=["last_login"]).
+        # Do not reopen or resize the profile image for unrelated field updates.
+        update_fields = kwargs.get("update_fields")
+        should_process_image = update_fields is None or "profile_picture" in update_fields
+
+        super().save(*args, **kwargs)
+
+        if not should_process_image or not self.profile_picture:
+            return
+
+        # Render's container filesystem may not contain older uploaded media.
+        # Missing profile files must never prevent login or other user updates.
+        try:
+            if not self.profile_picture.storage.exists(self.profile_picture.name):
+                return
+            with self.profile_picture.open("rb") as image_file:
+                img = Image.open(image_file)
+                img.load()
+                if img.height > 300 or img.width > 300:
+                    img.thumbnail((300, 300))
+                    img_format = img.format or "JPEG"
+                    with self.profile_picture.open("wb") as output_file:
+                        img.save(output_file, format=img_format)
+        except (FileNotFoundError, OSError, ValueError):
+            # Keep the account usable if an uploaded image is missing or invalid.
+            return
