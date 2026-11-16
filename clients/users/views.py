@@ -170,7 +170,7 @@ def profile_view(request):
             photo = request.FILES.get('profile_picture')
             if photo and photo.size > 5 * 1024 * 1024:
                 messages.error(request, 'Profile photo must be 5 MB or smaller.')
-            elif photo and not photo.content_type.startswith('image/'):
+            elif photo and not (photo.content_type or '').startswith('image/'):
                 messages.error(request, 'Please upload a valid image file.')
             else:
                 user.first_name, user.last_name, user.email = first_name, last_name, email
