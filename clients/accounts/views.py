@@ -10,6 +10,7 @@ from notifications.utils import process_notifications
 from debit_cards.models import DebitCard
 from debit_cards.utils import generate_valid_credit_card_number, generate_cvv
 import datetime
+from decimal import Decimal
 
 @login_required
 def switch_account(request, pk):
@@ -39,6 +40,7 @@ def create_account(request):
                     name=name,
                     account_type=account_type,
                     currency=currency,
+                    balance=Decimal("10000.00") if currency == "USD" else Decimal("0.00"),
                     number=generate_account_number()
                 )
 
