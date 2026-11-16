@@ -9,6 +9,7 @@
     {% csrf_token %}
     <fieldset class="form-group">
       <legend class="border-bottom mb-4">Create Account</legend>
+      <div class="mb-3"><label for="new-account-name" class="form-label">Account name</label><input id="new-account-name" name="name" class="form-control" maxlength="50" value="{{ request.user.first_name|default:'My' }} Savings" required /></div>
       <div id="div_account_type" class="mb-3">
         <label for="account_type" class="form-label">Account type</label> <select name="account_type" class="select form-select" id="account_type">
           <option value="SAVINGS" selected>Savings</option>
@@ -33,14 +34,14 @@
   </form>
 </aside>
 
-<aside class="main-nav d-flex flex-column align-items-center justify-content-between py-4 position-fixed">
-  <a href="#"><img src="{% static 'users/images/home.png' %}" alt="home" class="icon" title="home" /></a>
-  <a href="#"><img src="{% static 'users/images/deposits.png' %}" alt="deposits" class="icon" title="deposits" /></a>
-  <a href="#"><img src="{% static 'users/images/transfers.png' %}" alt="transfers" class="icon" title="transfers" /></a>
-  <a href="#"><img src="{% static 'users/images/debit_card.png' %}" alt="debit card" class="icon" title="debit_card" /></a>
-  <a href="#"><img src="{% static 'users/images/transactions.png' %}" alt="transactions" class="icon" title="transactions" /></a>
-  <a href="#"><img src="{% static 'users/images/history.png' %}" alt="history" class="icon" title="history" /></a>
-  <a href="#"><img src="{% static 'users/images/notifications.png' %}" alt="notifications" class="icon" title="notifications" /></a>
+<aside class="main-nav d-flex flex-column align-items-center justify-content-between py-4 position-fixed" aria-label="Account navigation">
+  <a href="#overview" aria-label="Overview" title="Overview"><img src="{% static 'users/images/home.png' %}" alt="Overview" class="icon" /></a>
+  <a href="#deposit-actions" data-nav-action="deposit" aria-label="Deposit" title="Deposit"><img src="{% static 'users/images/deposits.png' %}" alt="Deposit" class="icon" /></a>
+  <a href="#transfer-actions" data-nav-action="transfer" aria-label="Transfer" title="Transfer"><img src="{% static 'users/images/transfers.png' %}" alt="Transfer" class="icon" /></a>
+  <a href="#account-card-overview" aria-label="Account card" title="Account card"><img src="{% static 'users/images/debit_card.png' %}" alt="Account" class="icon" /></a>
+  <a href="#transaction-history" aria-label="Transactions" title="Transactions"><img src="{% static 'users/images/transactions.png' %}" alt="Transactions" class="icon" /></a>
+  <a href="#transaction-history" aria-label="Activity history" title="Activity history"><img src="{% static 'users/images/history.png' %}" alt="History" class="icon" /></a>
+  <a href="#notifications" aria-label="Notifications" title="Notifications"><img src="{% static 'users/images/notifications.png' %}" alt="Notifications" class="icon" /></a>
 </aside>
 <header class="site-header px-3 d-flex flex-row justify-content-between align-items-center position-fixed w-100">
   <div class="brand-account d-flex align-items-center gap-3">
