@@ -199,22 +199,54 @@ def profile_view(request):
 
 @login_required
 def transaction_history_view(request):
+    from datetime import date, datetime, time, timedelta
+    from django.utils import timezone
+
     account_data = request.session.get('account')
     account = None
     transactions = Transaction.objects.none()
+    date_from = request.GET.get('from') or '2000-03-01'
+    date_to = request.GET.get('to') or '2026-11-16'
+    search_query = request.GET.get('q', '').strip()
+    transaction_type = request.GET.get('type', 'all')
     if account_data:
         account = Account.objects.filter(pk=account_data.get('pk'), user=request.user).first()
     if account:
         transactions = Transaction.objects.filter(
             Q(account=account) | Q(payer=account) | Q(payee=account)
-        ).select_related('account', 'payer__user', 'payee__user').order_by('-date')
+        ).select_related('account', 'payer__user', 'payee__user')
+        try:
+            start = date.fromisoformat(date_from)
+            transactions = transactions.filter(date__date__gte=start)
+        except (TypeError, ValueError):
+            date_from = '2000-03-01'
+            transactions = transactions.filter(date__date__gte=date(2000, 3, 1))
+        try:
+            end = date.fromisoformat(date_to)
+            transactions = transactions.filter(date__date__lte=end)
+        except (TypeError, ValueError):
+            date_to = '2026-11-16'
+            transactions = transactions.filter(date__date__lte=date(2026, 11, 16))
+        if search_query:
+            transactions = transactions.filter(
+                Q(description__icontains=search_query) | Q(identifier__icontains=search_query)
+            )
+        if transaction_type in ('DEPOSIT', 'TRANSFER', 'DEBIT_CARD'):
+            transactions = transactions.filter(transaction_type=transaction_type)
+        transactions = transactions.order_by('-date')
         for transaction in transactions:
             transaction.is_outgoing = (
                 transaction.payer_id == account.pk
                 and transaction.transaction_type != 'DEPOSIT'
             )
+        if transaction_type == 'incoming':
+            transactions = [t for t in transactions if not t.is_outgoing]
+        elif transaction_type == 'outgoing':
+            transactions = [t for t in transactions if t.is_outgoing]
     return render(request, 'users/transaction_history.html', {
         'title': 'Transaction History', 'account': account, 'transactions': transactions,
+        'date_from': date_from, 'date_to': date_to, 'search_query': search_query,
+        'transaction_type': transaction_type,
     })
 
 
