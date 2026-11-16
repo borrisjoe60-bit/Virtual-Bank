@@ -2,30 +2,44 @@
 {% load humanize %}
 {% block content %}
 {% include "users/includes/header.html" %}
-<main class="float-end deltune-inner-page">
-  <div class="deltune-page-head"><div><span class="deltune-eyebrow">ACCOUNT ACTIVITY</span><h1>Transactions</h1><p>Your account activity, newest first.</p></div><a class="deltune-outline-button" href="{% url 'users:dashboard' %}">Back to overview</a></div>
-  <div class="deltune-prototype-note">Prototype records only. This page displays saved simulation activity, not real bank transfers or payments.</div>
+<main class="float-end deltune-inner-page deltune-transactions-page">
+  <div class="deltune-page-head">
+    <div><span class="deltune-eyebrow">ACCOUNT ACTIVITY</span><h1>Transaction History</h1><p>Review account activity and transaction details.</p></div>
+    <a class="deltune-outline-button" href="{% url 'users:dashboard' %}">Back to overview</a>
+  </div>
+  <div class="deltune-prototype-note">Deltune Bank prototype service. No real funds are held or transferred.</div>
   {% if account %}
-  <section class="deltune-history-account"><span>{{ account.name }} · {{ account.get_account_type_display }}</span><strong>{{ account.currency }} · {{ account.number }}</strong></section>
-  <div class="deltune-history-toolbar"><input id="history-search" type="search" placeholder="Search name, reference or description"><select id="history-filter"><option value="all">All activity</option><option value="incoming">Money in</option><option value="outgoing">Money out</option><option value="DEPOSIT">Deposits</option><option value="TRANSFER">Transfers</option><option value="DEBIT_CARD">Card activity</option></select></div>
+  <section class="deltune-history-account">
+    <div><span class="deltune-history-account-label">ACCOUNT</span><strong>{{ account.name }} · {{ account.get_account_type_display }}</strong></div>
+    <div><span class="deltune-history-account-label">ACCOUNT NUMBER</span><strong>{{ account.number }}</strong></div>
+    <div><span class="deltune-history-account-label">CURRENCY</span><strong>{{ account.currency }}</strong></div>
+  </section>
+  <form class="deltune-history-toolbar" method="get" action="">
+    <label class="deltune-history-search"><span>Search activity</span><input id="history-search" name="q" type="search" value="{{ search_query }}" placeholder="Description or reference"></label>
+    <label><span>From date</span><input type="date" name="from" value="{{ date_from }}" min="2000-03-01" max="2026-11-16"></label>
+    <label><span>To date</span><input type="date" name="to" value="{{ date_to }}" min="2000-03-01" max="2026-11-16"></label>
+    <label><span>Transaction type</span><select id="history-filter" name="type"><option value="all" {% if transaction_type == 'all' %}selected{% endif %}>All activity</option><option value="incoming" {% if transaction_type == 'incoming' %}selected{% endif %}>Money in</option><option value="outgoing" {% if transaction_type == 'outgoing' %}selected{% endif %}>Money out</option><option value="DEPOSIT" {% if transaction_type == 'DEPOSIT' %}selected{% endif %}>Deposits</option><option value="TRANSFER" {% if transaction_type == 'TRANSFER' %}selected{% endif %}>Transfers</option><option value="DEBIT_CARD" {% if transaction_type == 'DEBIT_CARD' %}selected{% endif %}>Card activity</option></select></label>
+    <button type="submit" class="deltune-history-apply">Apply filters</button>
+    <a class="deltune-history-reset" href="{% url 'users:transaction_history' %}">Reset</a>
+  </form>
+  <div class="deltune-history-period">Showing records from <strong>March 1, 2000</strong> through <strong>November 16, 2026</strong></div>
   <section class="deltune-history-list">
+    <div class="deltune-history-table-head"><span>TRANSACTION DETAILS</span><span>DATE</span><span>AMOUNT</span><span>STATUS</span></div>
     {% for item in transactions %}
       <article class="deltune-history-row" data-direction="{% if item.is_outgoing %}outgoing{% else %}incoming{% endif %}" data-type="{{ item.transaction_type }}">
         <div class="deltune-history-symbol">{% if item.transaction_type == 'TRANSFER' %}↗{% elif item.transaction_type == 'DEBIT_CARD' %}▣{% else %}↓{% endif %}</div>
-        <div class="deltune-history-main"><strong>{% if item.transaction_type == 'TRANSFER' %}{% if item.is_outgoing %}Transfer to {{ item.payee.user.get_full_name|default:"Account holder" }}{% else %}Transfer from {{ item.payer.user.get_full_name|default:"Account holder" }}{% endif %}{% elif item.transaction_type == 'DEBIT_CARD' %}Card transaction{% else %}Deposit{% endif %}</strong><small>{{ item.description|default:item.get_transaction_type_display }} · Ref {{ item.identifier|truncatechars:14 }}</small><time>{{ item.date|date:"d M Y, H:i" }}</time></div>
-        <div class="deltune-history-amount {% if not item.is_outgoing %}incoming{% endif %}">{% if item.is_outgoing %}− {{ item.currency_sent }} {{ item.amount_sent|floatformat:2|intcomma }}{% else %}+ {{ item.currency_received }} {{ item.amount_received|floatformat:2|intcomma }}{% endif %}<small>Recorded</small></div>
+        <div class="deltune-history-main"><strong>{% if item.transaction_type == 'TRANSFER' %}{% if item.is_outgoing %}Transfer to {{ item.payee.user.get_full_name|default:"Account holder" }}{% else %}Transfer from {{ item.payer.user.get_full_name|default:"Account holder" }}{% endif %}{% elif item.transaction_type == 'DEBIT_CARD' %}Card transaction{% else %}Deposit{% endif %}</strong><small>{{ item.description|default:item.get_transaction_type_display }} · Ref {{ item.identifier|truncatechars:14 }}</small></div>
+        <time class="deltune-history-date">{{ item.date|date:"d M Y, H:i" }}</time>
+        <div class="deltune-history-amount {% if not item.is_outgoing %}incoming{% endif %}">{% if item.is_outgoing %}− {{ item.currency_sent }} {{ item.amount_sent|floatformat:2|intcomma }}{% else %}+ {{ item.currency_received }} {{ item.amount_received|floatformat:2|intcomma }}{% endif %}</div>
+        <span class="deltune-history-status">Recorded</span>
       </article>
     {% empty %}
-      <div class="deltune-history-empty"><strong>No transactions yet</strong><p>When this account has saved activity, it will appear here.</p></div>
+      <div class="deltune-history-empty"><strong>No matching transactions</strong><p>No saved account activity was found for this date range and filter.</p></div>
     {% endfor %}
-    <div id="history-no-results" class="deltune-history-empty" hidden>No matching transactions. Try another search or filter.</div>
   </section>
   {% else %}
   <section class="deltune-history-empty"><strong>No account selected</strong><p>Create or select an account before viewing account activity.</p><a href="{% url 'users:dashboard' %}">Go to dashboard</a></section>
   {% endif %}
 </main>
 {% include "users/includes/footer.html" %}
-<script>
-document.addEventListener('DOMContentLoaded',()=>{const search=document.getElementById('history-search'),filter=document.getElementById('history-filter');if(!search||!filter)return;const rows=[...document.querySelectorAll('.deltune-history-row')],empty=document.getElementById('history-no-results');const apply=()=>{let count=0;rows.forEach(row=>{const f=filter.value,matchType=f==='all'||row.dataset.type===f||(f==='incoming'&&row.dataset.direction==='incoming')||(f==='outgoing'&&row.dataset.direction==='outgoing'),matchText=row.textContent.toLowerCase().includes(search.value.toLowerCase());row.hidden=!(matchType&&matchText);if(!row.hidden)count++});empty.hidden=count>0};search.addEventListener('input',apply);filter.addEventListener('change',apply)});
-</script>
 {% endblock %}
