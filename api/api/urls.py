@@ -5,7 +5,6 @@ from accounts import views as accounts_views
 from debit_cards import views as debit_cards_views
 from notifications import views as notifications_views
 from transactions import views as transactions_views
-from vsc_wallet import views as vsc_views
 from .views import ListApiUrls
 
 from rest_framework_simplejwt.views import TokenVerifyView
@@ -16,7 +15,7 @@ from drf_yasg import openapi
 schema_view = get_schema_view(
     openapi.Info(
         title="Virtual Bank API", default_version="v1",
-        description="Virtual Bank API for simulated banking and multichain wallet services, including Vector Smart Chain (VSG).",
+        description="Aurex Bank prototype API for simulated banking account and transaction workflows.",
         terms_of_service="https://www.google.com/policies/terms/",
         authentication_classes=("rest_framework_simplejwt.authentication.JWTAuthentication",),
         contact=openapi.Contact(email="adenijiolajid01@gmail.com"),
@@ -64,5 +63,4 @@ urlpatterns = [
     path("transfers/", transactions_views.TransferHistory.as_view(), name="transfer_history"),
     path("transfers/create/", transactions_views.CreateTransferTransaction.as_view(), name="transfer_creation"),
     path("transfers/<uuid:identifier>/", transactions_views.TransferDetails.as_view(), name="transfer_detail"),
-    path("vsc/", include("vsc_wallet.urls")),
 ]
