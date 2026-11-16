@@ -44,18 +44,21 @@ const quickDepositBtn = document.getElementById("quick-deposit-btn");
 quickTransfer?.addEventListener("click", () => quickTransferForm?.classList.remove("d-none"));
 quickDeposit?.addEventListener("click", () => quickDepositForm?.classList.remove("d-none"));
 
-document.querySelectorAll(".main-nav [data-nav-action]").forEach(link => {
+document.querySelectorAll(".main-nav a").forEach(link => {
   link.addEventListener("click", event => {
     const action = link.dataset.navAction;
-    const trigger = action === "deposit" ? quickDeposit : quickTransfer;
+    const trigger = action === "deposit" ? quickDeposit : action === "transfer" ? quickTransfer : null;
     if (trigger) {
       event.preventDefault();
       trigger.click();
       return;
     }
-    if (!document.querySelector("#account-setup")) {
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) {
       event.preventDefault();
-      document.querySelector("#account-setup")?.scrollIntoView({ behavior: "smooth" });
+      const setup = document.querySelector("#account-setup");
+      if (setup) setup.scrollIntoView({ behavior: "smooth", block: "center" });
+      else document.querySelector("#overview")?.scrollIntoView({ behavior: "smooth" });
     }
   });
 });
