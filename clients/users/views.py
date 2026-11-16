@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.views import View
 from django.views.generic.edit import FormView
 from .forms import UserRegisterForm
+from .models import User
 from accounts.forms import AccountCreationForm
 from accounts.utils import update_account
 from .utils import get_client_ip
