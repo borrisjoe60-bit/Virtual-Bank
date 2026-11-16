@@ -128,6 +128,14 @@ class DashBoard(View):
             financial = None
             top_partners = None
 
+        selected_account = request.session.get("account") or {}
+        is_alex_savings = (
+            request.user.first_name.strip().lower() == "alex"
+            and request.user.last_name.strip().lower() == "weber"
+            and selected_account.get("account_type") == "SAVINGS"
+            and selected_account.get("currency") == "USD"
+        )
+
         context = {
             "user": request.user,
             "title": "Dashboard",
@@ -136,8 +144,8 @@ class DashBoard(View):
             "financial": financial,
             "top_partners": top_partners,
             # Requested simulated figures for the Savings account dashboard.
-            "deltune_available_balance": "2343536.00",
-            "deltune_current_balance": "7656464.00",
+            "deltune_available_balance": "2343536.00" if is_alex_savings else None,
+            "deltune_current_balance": "7656464.00" if is_alex_savings else None,
         }
 
         return render(request, self.template_name, context)
