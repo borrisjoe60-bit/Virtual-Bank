@@ -1,0 +1,22 @@
+{% extends "users/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="aurex-page">
+  <div class="aurex-page-heading"><span class="aurex-kicker">YOUR ACCOUNT</span><h1>My profile</h1><p>Review and update your personal contact details.</p></div>
+  {% if messages %}{% for message in messages %}<div class="alert alert-success">{{ message }}</div>{% endfor %}{% endif %}
+  <form method="post" enctype="multipart/form-data" class="aurex-panel">{% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6"><label>First name</label><input class="form-control" name="first_name" value="{{ request.user.first_name }}" required></div>
+      <div class="col-md-6"><label>Last name</label><input class="form-control" name="last_name" value="{{ request.user.last_name }}" required></div>
+      <div class="col-md-6"><label>Email</label><input class="form-control" type="email" name="email" value="{{ request.user.email }}" required></div>
+      <div class="col-md-6"><label>Phone number</label><input class="form-control" name="phone_number" value="{{ request.user.phone_number|default_if_none:'' }}"></div>
+      <div class="col-md-6"><label>Address</label><input class="form-control" name="address" value="{{ request.user.address|default_if_none:'' }}"></div>
+      <div class="col-md-6"><label>City</label><input class="form-control" name="city" value="{{ request.user.city|default_if_none:'' }}"></div>
+      <div class="col-md-6"><label>State / Region</label><input class="form-control" name="state" value="{{ request.user.state|default_if_none:'' }}"></div>
+      <div class="col-md-6"><label>Country</label><input class="form-control" name="country" value="{{ request.user.country|default_if_none:'' }}"></div>
+    </div>
+    <button class="btn btn-danger mt-4" type="submit">Save profile</button>
+  </form>
+  <a class="aurex-back-link" href="{% url 'users:dashboard' %}">← Back to dashboard</a>
+</div>
+{% endblock %}
