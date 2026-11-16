@@ -1,0 +1,13 @@
+{% extends "users/base.html" %}
+{% block content %}
+<div class="aurex-page">
+  <div class="aurex-page-heading"><span class="aurex-kicker">SECURITY & PREFERENCES</span><h1>Account settings</h1><p>Manage your sign-in and account preferences.</p></div>
+  <div class="aurex-panel aurex-settings-list">
+    <a href="{% url 'users:password_change' %}"><span><b>Change password</b><small>Update your account password.</small></span><strong>›</strong></a>
+    <a href="{% url 'users:profile' %}"><span><b>Personal information</b><small>Review your contact details.</small></span><strong>›</strong></a>
+    <a href="{% url 'users:kyc' %}"><span><b>Identity verification</b><small>View identity verification information.</small></span><strong>›</strong></a>
+    <a href="{% url 'users:logout' %}"><span><b>Sign out</b><small>End your current session.</small></span><strong>›</strong></a>
+  </div>
+  <a class="aurex-back-link" href="{% url 'users:dashboard' %}">← Back to dashboard</a>
+</div>
+{% endblock %}
