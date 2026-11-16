@@ -135,6 +135,9 @@ class DashBoard(View):
             "recent_transactions": recent_transactions,
             "financial": financial,
             "top_partners": top_partners,
+            # Requested simulated figures for the Savings account dashboard.
+            "deltune_available_balance": "2343536.00",
+            "deltune_current_balance": "7656464.00",
         }
 
         return render(request, self.template_name, context)
