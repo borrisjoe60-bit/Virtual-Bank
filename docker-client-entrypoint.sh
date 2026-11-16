@@ -1,58 +1,42 @@
 #!/bin/bash
-
 set -e
 
-# Wait for API service to be ready
-echo "Waiting for API service..."
-until curl -s http://api:8030/api/ > /dev/null 2>&1; do
-  echo "API service is unavailable - sleeping"
-  sleep 2
-done
-
-# Wait for database to be ready
 echo "Waiting for database..."
-python -c "
-import sys
-import psycopg2
+python - <<'PY'
 import os
 import time
-host = os.environ.get('DB_HOST', 'db')
-user = os.environ.get('DB_USER', 'postgres')
-password = os.environ.get('DB_PASSWORD', 'postgres')
-dbname = os.environ.get('DB_NAME', 'postgres')
-port = os.environ.get('DB_PORT', '5432')
+import psycopg2
 
-for i in range(30):  # Try for 30 seconds
+for attempt in range(60):
     try:
-        conn = psycopg2.connect(
-            host=host,
-            user=user,
-            password=password,
-            dbname=dbname,
-            port=port
+        connection = psycopg2.connect(
+            host=os.environ["DB_HOST"],
+            user=os.environ["DB_USER"],
+            password=os.environ["DB_PASSWORD"],
+            dbname=os.environ["DB_NAME"],
+            port=os.environ.get("DB_PORT", "5432"),
+            connect_timeout=5,
         )
-        conn.close()
-        sys.exit(0)
+        connection.close()
+        print("Database connection ready.")
+        break
     except psycopg2.OperationalError:
-        time.sleep(1)
-sys.exit(1)
-"
+        if attempt == 59:
+            raise
+        time.sleep(2)
+PY
 
-# Apply database migrations
-echo "Applying database migrations for client app..."
+echo "Applying client migrations..."
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
-# Ensure staticfiles directory exists and run collectstatic again
-echo "Ensuring staticfiles directory exists and collecting static files..."
+echo "Collecting client static files..."
 mkdir -p /app/clients/staticfiles
 python manage.py collectstatic --noinput --clear
 
-# Create superuser if DJANGO_SUPERUSER_* environment variables are set
 if [[ -n "${DJANGO_SUPERUSER_USERNAME}" && -n "${DJANGO_SUPERUSER_PASSWORD}" && -n "${DJANGO_SUPERUSER_EMAIL}" ]]; then
-    echo "Creating superuser for client app..."
+    echo "Creating client superuser..."
     python manage.py createsuperuser --noinput || true
 fi
 
-# Execute the command passed to docker run
 exec "$@"
