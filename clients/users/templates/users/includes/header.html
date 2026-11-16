@@ -84,7 +84,7 @@
     <a href="http://127.0.0.1:8030/redoc/"><img src="{% static 'users/images/developer.png' %}" alt="developer" class="icon" title="API Documentation" /></a>
     <a href="http://127.0.0.1:8030/swagger/"><img src="{% static 'users/images/help.png' %}" alt="help" class="icon" title="help" /></a>
     <div>
-      <img src="{% static 'users/images/notification.png' %}" alt="notification" class="notification-icon icon" title="notification" />
+      <img id="notifications" src="{% static 'users/images/notification.png' %}" alt="notification" class="notification-icon icon" title="notifications" />
       {% if unread_count > 0 %}
         <span class="position-relative notification-icon"><div class="position-absolute notification-count rounded-circle bg-danger text-white d-flex justify-content-center align-items-center">{{ unread_count }}</div> <!-- unread notification count --></span>
         <span class="position-relative unread-notifications">
