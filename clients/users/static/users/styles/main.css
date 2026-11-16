@@ -87,3 +87,12 @@ aside.account-form form {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+
+/* Aurex Bank red-and-white identity */
+:root { --primary: #b51224; --secondary: #e23b4d; --aurex-red: #b51224; --aurex-ink: #25252b; --aurex-soft: #fff4f5; }
+body { background: #fffafa; color: var(--aurex-ink); }
+a:hover { color: var(--aurex-red); }
+.btn-primary, .bg-primary { background-color: var(--aurex-red) !important; border-color: var(--aurex-red) !important; }
+.btn-outline-primary { color: var(--aurex-red) !important; border-color: var(--aurex-red) !important; }
+.btn-outline-primary:hover { background: var(--aurex-red) !important; color: #fff !important; }
