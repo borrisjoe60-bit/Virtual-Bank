@@ -72,6 +72,7 @@
               <button class="quick-deposit rounded-1 p-2 fw-semibold shadow-sm" id="deposit-actions">Quick deposit</button>
             </div>
 
+            {% if deltune_available_balance and deltune_current_balance %}
             <!-- Savings account balance overview -->
             <div class="row g-3 mt-4" id="account-card-overview">
               <div class="col-12 col-md-6">
@@ -98,6 +99,17 @@
                 <div class="text-secondary small px-1">Account number: {{ request.session.account.number }}</div>
               </div>
             </div>
+
+            {% else %}
+            <div class="account-cards border border-black w-73 bg-white rounded-4 shadow mt-5 d-flex flex-column justify-content-evenly" id="account-card-overview">
+              <div class="mx-5 d-flex justify-content-between">
+                <span class="text-secondary fs-6 fw-light">Available balance</span>
+                <span class="fs-6">{{ request.session.account.account_type }}</span>
+              </div>
+              <div class="mx-5 fs-2 account-balance">{{ request.session.account.currency|currency_to_unicode|safe }}<span>{{ request.session.account.balance|floatformat:3|intcomma }}</span></div>
+              <div class="mx-5 account-number">{{ request.session.account.number }}</div>
+            </div>
+            {% endif %}
 
             <div class="transaction-chart d-flex flex-column w-100 mt-5">
               <div id="transactionChart" class=""></div> <!-- Transaction chart -->
