@@ -8,3 +8,4 @@
 .logo img {
     filter: drop-shadow(2px 2px 4px black);
 }
+.deltune-home-logo{width:auto;align-items:center;gap:6px;font-family:Arial,sans-serif;font-size:24px;font-weight:800;letter-spacing:1px;color:#fff;text-shadow:0 2px 8px #0008;white-space:nowrap}.deltune-home-logo b{font-weight:500;color:#fff}@media(max-width:767px){.deltune-home-logo{font-size:19px}}
