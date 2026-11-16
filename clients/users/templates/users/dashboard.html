@@ -1,6 +1,7 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% load accounts_tags %}
+{% load humanize %}
 {% block content %}
   {% include 'users/includes/header.html' %}
   <main class="float-end">
@@ -75,7 +76,7 @@
                 <span class="text-secondary fs-6 fw-light">Available balance</span>
                 <span class="fs-6">{{ request.session.account.account_type }}</span>
               </div>
-              <div class="mx-5 fs-2 account-balance">{{ request.session.account.currency|currency_to_unicode|safe }}<span>{{ request.session.account.balance|floatformat:3 }}</span></div>
+              <div class="mx-5 fs-2 account-balance">{{ request.session.account.currency|currency_to_unicode|safe }}<span>{{ request.session.account.balance|floatformat:3|intcomma }}</span></div>
               <div class="mx-5 account-number">{{ request.session.account.number }}</div>
             </div>
 
