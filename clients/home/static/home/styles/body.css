@@ -75,3 +75,176 @@ body {
         width: 90%;
     }
 }
+
+/* Deltune Bank homepage: consistent red-and-white identity */
+body {
+    background: #fff !important;
+    color: #29242a;
+}
+.background,
+.background .bg-top,
+.background .bg-bottom {
+    display: none !important;
+}
+header.container-fluid {
+    position: relative;
+    z-index: 5;
+    margin-top: 0 !important;
+    padding: 18px clamp(16px, 4vw, 56px);
+    background: #a90f22;
+    box-shadow: 0 5px 18px rgba(80, 0, 12, .14);
+}
+header.container-fluid .signin,
+header.container-fluid nav a,
+header.container-fluid .register a {
+    color: #fff !important;
+}
+header.container-fluid .signup,
+header.container-fluid .register .btn {
+    background: #fff !important;
+    border: 1px solid #fff !important;
+    color: #a90f22 !important;
+    font-weight: 700;
+}
+header.container-fluid .signup:hover,
+header.container-fluid .register .btn:hover {
+    background: #fff0f1 !important;
+}
+.deltune-home-logo {
+    color: #fff !important;
+    text-shadow: none !important;
+}
+main.container-fluid {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-top: clamp(32px, 6vw, 76px);
+    padding-bottom: 64px;
+}
+.tagline,
+.circular-text {
+    display: none !important;
+}
+.intro-1 {
+    align-items: center;
+    min-height: 390px;
+    margin: 0 0 56px !important;
+    padding: clamp(28px, 5vw, 64px);
+    border: 1px solid #f1d8dc;
+    border-radius: 26px;
+    background: linear-gradient(120deg, #fff7f8 0%, #fff 72%) !important;
+    box-shadow: 0 18px 50px rgba(110, 12, 28, .08);
+    color: #29242a !important;
+    -webkit-text-fill-color: initial !important;
+}
+.intro-1 .discover {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+}
+.intro-1 .discover h1 {
+    max-width: 650px;
+    color: #a90f22;
+    font-size: clamp(2.25rem, 5vw, 4.4rem);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+}
+.intro-1 .discover p {
+    max-width: 590px;
+    color: #5e5558;
+    font-size: clamp(1rem, 1.7vw, 1.3rem) !important;
+    line-height: 1.65;
+}
+.intro-1 .discover .btn-light {
+    background: #a90f22 !important;
+    border-color: #a90f22 !important;
+    color: #fff !important;
+    font-weight: 700;
+    padding: 12px 25px;
+}
+.intro-1 .discover .btn-outline-light {
+    border: 1px solid #a90f22 !important;
+    color: #a90f22 !important;
+    font-weight: 700;
+    padding: 12px 25px;
+}
+.intro-1 .discover .btn-outline-light:hover {
+    background: #a90f22 !important;
+    color: #fff !important;
+}
+.intro-1 .img {
+    min-height: 300px;
+    background-position: center !important;
+    background-size: contain !important;
+}
+main .display-2.float-end {
+    color: #a90f22;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+main .about h2 {
+    color: #a90f22;
+}
+main .about p {
+    color: #5e5558;
+    line-height: 1.65;
+}
+.fun_about div {
+    border: 1px solid #f1d8dc;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(80, 0, 12, .07);
+}
+.fun_about div:hover {
+    box-shadow: 0 16px 38px rgba(80, 0, 12, .12);
+}
+.fun_about p.fw-bold {
+    color: #a90f22;
+}
+main .btn-primary {
+    background: #a90f22 !important;
+    border-color: #a90f22 !important;
+}
+footer {
+    position: relative;
+    z-index: 1;
+    background: #8f0d1d;
+    color: #fff;
+}
+footer a {
+    color: #fff;
+}
+@media (max-width: 767px) {
+    header.container-fluid {
+        padding: 12px 16px;
+    }
+    main.container-fluid {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        padding-top: 28px;
+    }
+    .intro-1 {
+        min-height: 0;
+        padding: 28px 22px;
+        margin-bottom: 38px !important;
+        border-radius: 18px;
+    }
+    .intro-1 .img {
+        display: none !important;
+    }
+    .intro-1 .discover h1 {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+    .prototype {
+        width: 100%;
+    }
+    .fun_about {
+        gap: 20px;
+    }
+    .fun_about div {
+        width: 100%;
+    }
+    footer .d-flex {
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+}
