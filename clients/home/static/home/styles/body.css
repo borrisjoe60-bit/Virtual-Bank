@@ -248,3 +248,57 @@ footer a {
         margin-right: 16px !important;
     }
 }
+
+
+/* Deltune Bank mobile navigation */
+.deltune-mobile-menu {
+    width: min(86vw, 360px);
+    background: #fff !important;
+    border-right: 1px solid #f1d8dc;
+    box-shadow: 12px 0 36px rgba(80, 0, 12, .12);
+}
+.deltune-mobile-menu .offcanvas-header {
+    padding: 20px 22px 10px;
+    border-bottom: 1px solid #f1d8dc;
+}
+.deltune-mobile-menu .offcanvas-body {
+    padding: 24px 22px;
+}
+.deltune-mobile-menu nav a {
+    color: #a90f22 !important;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 10px 0;
+}
+.deltune-mobile-menu nav a:hover {
+    color: #8f0d1d !important;
+}
+.deltune-mobile-menu .register {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.deltune-mobile-menu .signin {
+    color: #a90f22 !important;
+    font-weight: 700;
+}
+.deltune-mobile-menu .signup,
+.deltune-mobile-menu .register .btn {
+    background: #a90f22 !important;
+    border-color: #a90f22 !important;
+    color: #fff !important;
+    font-weight: 700;
+}
+.deltune-mobile-menu .btn-close {
+    opacity: .8;
+}
+@media (max-width: 767px) {
+    .menu {
+        width: 52px;
+        height: 52px;
+        margin-left: auto;
+        border-radius: 12px;
+        background-size: 34px 34px;
+    }
+}
