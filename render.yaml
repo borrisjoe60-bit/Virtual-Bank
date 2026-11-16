@@ -37,11 +37,8 @@ services:
           name: virtual-bank-redis
           type: keyvalue
           property: connectionString
-      - key: VSC_RPC_URL
         value: https://rpc.vscblockchain.org
-      - key: VSC_RPC_FALLBACK_URLS
         value: https://420042.rpc.thirdweb.com
-      - key: VSC_HISTORY_API_URL
         value: https://explorer.vscblockchain.org/api
       - key: API_HOST
         value: virtual-bank-api.onrender.com
