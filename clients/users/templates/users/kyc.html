@@ -1,0 +1,13 @@
+{% extends "users/base.html" %}
+{% block content %}
+<div class="aurex-page">
+  <div class="aurex-page-heading"><span class="aurex-kicker">IDENTITY & COMPLIANCE</span><h1>Identity verification</h1><p>Know your customer (KYC) information.</p></div>
+  <section class="aurex-panel">
+    <div class="aurex-status-pill">Not connected</div>
+    <h2>Verification provider not configured</h2>
+    <p>This AUREX BANK prototype does not currently collect identity documents or perform identity checks. No account is KYC-verified through this page.</p>
+    <p>Before enabling real KYC, the owner must connect a compliant identity-verification provider, configure secure document storage, publish a privacy notice and establish an authorized review process.</p>
+  </section>
+  <a class="aurex-back-link" href="{% url 'users:dashboard' %}">← Back to dashboard</a>
+</div>
+{% endblock %}
