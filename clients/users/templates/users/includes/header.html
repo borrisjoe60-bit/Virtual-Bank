@@ -42,7 +42,7 @@
   <a href="{% url 'users:transaction_history' %}" aria-label="Transactions" title="Transactions"><img src="{% static 'users/images/transactions.png' %}" alt="" class="icon" /></a>
   <a href="{% url 'users:notifications' %}" aria-label="Notifications" title="Notifications"><img src="{% static 'users/images/notifications.png' %}" alt="" class="icon" /></a>
   <a href="{% url 'users:profile' %}" aria-label="Profile" title="Profile"><img src="{{ request.user.profile_picture.url }}" alt="" class="icon rounded-circle" /></a>
-  <a href="{% url 'users:settings' %}" aria-label="Settings" title="Settings"><img src="{% static 'users/images/settings.png' %}" alt="" class="icon" /></a>
+  <a href="{% url 'users:settings' %}" aria-label="Settings" title="Settings"><span class="icon deltune-settings-symbol" aria-hidden="true">⚙</span></a>
 </aside>
 <header class="site-header px-3 d-flex flex-row justify-content-between align-items-center position-fixed w-100">
   <div class="brand-account d-flex align-items-center gap-3">
