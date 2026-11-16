@@ -197,6 +197,11 @@ def transaction_history_view(request):
         transactions = Transaction.objects.filter(
             Q(account=account) | Q(payer=account) | Q(payee=account)
         ).select_related('account', 'payer__user', 'payee__user').order_by('-date')
+        for transaction in transactions:
+            transaction.is_outgoing = (
+                transaction.payer_id == account.pk
+                and transaction.transaction_type != 'DEPOSIT'
+            )
     return render(request, 'users/transaction_history.html', {
         'title': 'Transaction History', 'account': account, 'transactions': transactions,
     })
