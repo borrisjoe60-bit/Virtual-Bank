@@ -25,11 +25,11 @@
             </datalist>
             {% else %}
             {% endif %}
-            <input type="number" list="quick-account_number-list" name="payee_account_number" class="numberinput form-control" id="quick-account_number" />
+            <input type="number" list="quick-account_number-list" name="payee_account_number" class="numberinput form-control" id="quick-account_number" min="1" step="1" required />
           </div>
           <div class="mb-3">
             <label for="quick-amount" class="form-label">Amount</label>
-            <input type="number" name="amount" class="numberinput form-control" id="quick-amount" />
+            <input type="number" name="amount" class="numberinput form-control" id="quick-amount" min="0.01" step="0.01" required />
           </div>
 
           <input type="hidden" name="payer_account_number" value="{{ request.session.account.number }}">
@@ -50,7 +50,7 @@
           <legend class="border-bottom mb-4">Make Deposit</legend>
           <div class="mb-3">
             <label for="quick-deposit-amount" class="form-label">Amount</label>
-            <input type="number" name="amount"  id="quick-deposit-amount" class="numberinput form-control" />
+            <input type="number" name="amount"  id="quick-deposit-amount" class="numberinput form-control" min="0.01" step="0.01" required />
             <input type="hidden" name="account_number" value="{{ request.session.account.number }}">
           </div>
 
