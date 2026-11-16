@@ -193,16 +193,64 @@
           </div>
         </div>
       {% else %}
-        <p class="text-success">
-          Welcome!, <span class="fs-3 fw-bold">{{ request.user.get_full_name }}</span>
-        </p>
-        <p class="text-center fs-3 my-5">Now that you're part of our community, let's ensure you have a smooth experience while testing transactions and exploring our features.</p>
-        <p class="text-center fs-2 fw-semibold m-5">Click the button below to Create an Account.</p>
-        <div id="welcome-create-account-btn" class="m-auto center border rounded-pill bg-success text-white text-center" style="cursor: pointer;">Create Account</div>
+        <section class="deltune-premium">
+          <div class="deltune-dashboard-intro">
+            <div><span class="deltune-eyebrow">PRIVATE CLIENT EXPERIENCE</span><h2>Your financial overview</h2><p>Welcome back, {{ request.user.first_name|default:request.user.get_full_name }}. Your account workspace is ready to set up.</p></div>
+            <button id="welcome-create-account-btn" class="deltune-primary-button" type="button">Create simulated account</button>
+          </div>
+          <div class="deltune-preview-banner"><strong>PREVIEW DATA</strong><span>The transactions and figures below are illustrative interface samples only. They are not your account activity, real funds, or actual banking services.</span></div>
+          <div class="deltune-summary-grid">
+            <article class="deltune-summary-card"><span>Total premium spend</span><strong>$248,650.00</strong><small>Illustrative 30-day sample</small></article>
+            <article class="deltune-summary-card"><span>Largest transaction</span><strong>$125,000.00</strong><small>Sample private investment</small></article>
+            <article class="deltune-summary-card"><span>Average transaction</span><strong>$18,475.00</strong><small>Illustrative sample value</small></article>
+          </div>
+          <div class="deltune-chart-card">
+            <div class="deltune-section-heading"><div><span class="deltune-eyebrow">ACTIVITY INSIGHTS</span><h3>Spending overview</h3></div><span class="deltune-period">Last 30 days · sample</span></div>
+            <svg class="deltune-sample-chart" viewBox="0 0 900 170" role="img" aria-label="Illustrative spending trend line chart"><defs><linearGradient id="deltuneFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bd1e32" stop-opacity=".22"/><stop offset="1" stop-color="#bd1e32" stop-opacity="0"/></linearGradient></defs><path d="M0 135 C70 120 75 85 145 100 S230 125 290 78 S390 110 450 65 S540 95 600 45 S690 82 750 34 S830 58 900 18 L900 170 L0 170Z" fill="url(#deltuneFill)"/><path d="M0 135 C70 120 75 85 145 100 S230 125 290 78 S390 110 450 65 S540 95 600 45 S690 82 750 34 S830 58 900 18" fill="none" stroke="#bd1e32" stroke-width="4" stroke-linecap="round"/></svg>
+            <div class="deltune-chart-labels"><span>30 days ago</span><span>15 days ago</span><span>Today</span></div>
+          </div>
+          <div class="deltune-transactions-card">
+            <div class="deltune-section-heading"><div><span class="deltune-eyebrow">ACCOUNT ACTIVITY PREVIEW</span><h3>Transaction history</h3></div><span class="deltune-period">Sample records</span></div>
+            <div class="deltune-filter-row"><div class="deltune-filters"><button class="active" data-filter="all">All</button><button data-filter="incoming">Incoming</button><button data-filter="outgoing">Outgoing</button><button data-filter="investment">Investments</button><button data-filter="lifestyle">Lifestyle</button><button data-filter="crypto">Crypto</button></div><input id="deltune-transaction-search" type="search" placeholder="Search sample activity..." aria-label="Search sample transactions"></div>
+            <div class="deltune-transaction-list" id="deltune-transaction-list">
+              <article class="deltune-transaction-row" data-category="investment" data-direction="outgoing"><span class="deltune-transaction-icon">↗</span><span class="deltune-transaction-name"><strong>Meridian Private Capital</strong><small>Investment · International portfolio</small></span><span class="deltune-transaction-date">Nov 15, 2026 · 10:42 AM</span><span class="deltune-transaction-amount">−$125,000.00</span><span class="deltune-status completed">Completed</span></article>
+              <article class="deltune-transaction-row" data-category="lifestyle" data-direction="outgoing"><span class="deltune-transaction-icon">◇</span><span class="deltune-transaction-name"><strong>Azure Yacht Collection</strong><small>Lifestyle · Luxury asset payment</small></span><span class="deltune-transaction-date">Nov 14, 2026 · 2:18 PM</span><span class="deltune-transaction-amount">−$48,500.00</span><span class="deltune-status processing">Processing</span></article>
+              <article class="deltune-transaction-row" data-category="incoming" data-direction="incoming"><span class="deltune-transaction-icon">↓</span><span class="deltune-transaction-name"><strong>Northstar Private Wealth</strong><small>Transfer · Wealth deposit</small></span><span class="deltune-transaction-date">Nov 13, 2026 · 9:05 AM</span><span class="deltune-transaction-amount incoming">+$85,000.00</span><span class="deltune-status completed">Completed</span></article>
+              <article class="deltune-transaction-row" data-category="crypto" data-direction="outgoing"><span class="deltune-transaction-icon">₿</span><span class="deltune-transaction-name"><strong>Digital Asset Exchange</strong><small>Crypto · Crypto-to-fiat conversion</small></span><span class="deltune-transaction-date">Nov 12, 2026 · 4:36 PM</span><span class="deltune-transaction-amount">−$12,750.00</span><span class="deltune-status completed">Completed</span></article>
+              <article class="deltune-transaction-row" data-category="lifestyle" data-direction="outgoing"><span class="deltune-transaction-icon">▧</span><span class="deltune-transaction-name"><strong>Maison de Verre</strong><small>Lifestyle · Fine art acquisition</small></span><span class="deltune-transaction-date">Nov 11, 2026 · 11:20 AM</span><span class="deltune-transaction-amount">−$32,400.00</span><span class="deltune-status pending">Pending</span></article>
+              <article class="deltune-transaction-row" data-category="transfer" data-direction="outgoing"><span class="deltune-transaction-icon">⇄</span><span class="deltune-transaction-name"><strong>Global Treasury Services</strong><small>Transfer · International wire</small></span><span class="deltune-transaction-date">Nov 10, 2026 · 8:52 AM</span><span class="deltune-transaction-amount">−$30,000.00</span><span class="deltune-status completed">Completed</span></article>
+            </div>
+            <p class="deltune-empty-filter" hidden>No sample transactions match your search.</p>
+          </div>
+        </section>
       {% endif %}
     </div>
   </main>
   {% include 'users/includes/footer.html' %}
   <script type="module" src="{% static 'users/scripts/dashboard.js' %}"></script>
-  <script type="module" src="{% static 'users/scripts/chart.js' %}"></script>
+  {% if request.user.account_set.all %}<script type="module" src="{% static 'users/scripts/chart.js' %}"></script>{% endif %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const list = document.getElementById('deltune-transaction-list');
+      if (!list) return;
+      let activeFilter = 'all';
+      const search = document.getElementById('deltune-transaction-search');
+      const rows = [...list.querySelectorAll('.deltune-transaction-row')];
+      const empty = document.querySelector('.deltune-empty-filter');
+      const apply = () => {
+        const term = search.value.trim().toLowerCase(); let visible = 0;
+        rows.forEach(row => {
+          const matchesFilter = activeFilter === 'all' || row.dataset.category === activeFilter || (activeFilter === 'incoming' && row.dataset.direction === 'incoming') || (activeFilter === 'outgoing' && row.dataset.direction === 'outgoing');
+          const matchesSearch = row.textContent.toLowerCase().includes(term);
+          row.hidden = !(matchesFilter && matchesSearch); if (!row.hidden) visible++;
+        });
+        empty.hidden = visible !== 0;
+      };
+      document.querySelectorAll('.deltune-filters button').forEach(button => button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        document.querySelectorAll('.deltune-filters button').forEach(item => item.classList.toggle('active', item === button)); apply();
+      }));
+      search.addEventListener('input', apply);
+    });
+  </script>
 {% endblock %}
