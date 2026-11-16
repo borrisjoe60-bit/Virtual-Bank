@@ -81,7 +81,7 @@
         </div>
         <div class="col-12 col-md d-flex justify-content-center justify-content-md-end">          <nav>
             <a href="{% url 'home:about' %}" class="text-decoration-none text-white mx-2 link-secondary">About Us</a>
-            <a href="#" class="text-decoration-none text-white mx-2 link-secondary">Contact Us</a>
+            <a href="mailto:support@deltunebank.example" class="text-decoration-none text-white mx-2 link-secondary">Contact Us</a>
             <a href="{{ API_URL }}/redoc/" class="text-decoration-none text-white mx-2 link-secondary">Documentation</a>
             <!-- <a href="#" class="text-decoration-none text-white mx-2 link-secondary">Guides</a> -->
           </nav>
@@ -112,7 +112,7 @@
             <div class="col-12 col-md d-flex mb-4">
               <nav>
                 <a href="{% url 'home:about' %}" class="text-decoration-none row mx-2 mb-3">About Us</a>
-                <a href="#" class="text-decoration-none row mx-2 mb-3">Contact Us</a>
+                <a href="mailto:support@deltunebank.example" class="text-decoration-none row mx-2 mb-3">Contact Us</a>
                 <a href="{{ API_URL }}/swagger/" class="text-decoration-none row mx-2 mb-3">Developers</a>
                 <a href="{{ API_URL }}/redoc/" class="text-decoration-none row mx-2 mb-3">Documentation</a>
               </nav>
@@ -159,11 +159,11 @@
           <div class="col">
             <h4 class="mb-3">Quick Links</h4>
             <nav class="col row grid gap-4 fs-5">
-              <a href="#" class="text-decoration-none">About Us</a>
-              <a href="#" class="text-decoration-none">Contact Us</a>
-              <a href="#" class="text-decoration-none">Features</a>
-              <a href="http://127.0.0.1:8030/swagger/" class="text-decoration-none">API Documentation</a>
-              <a href="#" class="text-decoration-none">Developer Portal</a>
+              <a href="{% url 'home:about' %}" class="text-decoration-none">About Us</a>
+              <a href="mailto:support@deltunebank.example" class="text-decoration-none">Contact Us</a>
+              <a href="{% url 'home:homepage' %}#features" class="text-decoration-none">Features</a>
+              <a href="{{ API_URL }}/swagger/" class="text-decoration-none">API Documentation</a>
+              <a href="{{ API_URL }}/swagger/" class="text-decoration-none">Developer Portal</a>
             </nav>
           </div>
           <div class="col">
