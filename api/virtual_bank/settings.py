@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     "notifications.apps.NotificationsConfig",
     "transactions.apps.TransactionsConfig",
     "websocket.apps.WebsocketConfig",
-    "vsc_wallet.apps.VscWalletConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
