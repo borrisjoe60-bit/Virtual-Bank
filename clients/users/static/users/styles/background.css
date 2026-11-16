@@ -5,3 +5,5 @@ body {
 .logo {
     width: 10%;
 }
+.aurex-auth-brand{display:flex;justify-content:center;align-items:center;gap:8px;color:#b51224;font-size:25px;font-weight:850;letter-spacing:2px;margin:28px auto}.aurex-auth-brand span{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border-radius:12px;background:#b51224;color:#fff;font-family:Georgia,serif;font-size:28px}.aurex-auth-brand b{color:#29242a;font-weight:650}
+.content-section form{max-width:650px!important;border:1px solid #f0dadd!important;background:#fff!important;border-radius:18px!important}.content-section form legend{color:#a20f20}.content-section form button{background:#b51224;color:#fff;border-color:#b51224}.content-section form button:hover{background:#8e0d1b;color:#fff}
